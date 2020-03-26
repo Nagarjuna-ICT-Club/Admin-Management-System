@@ -1,0 +1,36 @@
+{
+  "name": "admin-management-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nagarjuna-College-of-IT/Admin-Management-System.git"
+  },
+  "keywords": [],
+  "author": "Sangya Sherpa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nagarjuna-College-of-IT/Admin-Management-System/issues"
+  },
+  "homepage": "https://github.com/Nagarjuna-College-of-IT/Admin-Management-System#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.6",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
