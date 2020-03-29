@@ -38,7 +38,7 @@ semesterRouter.post("/new-semester", async (req, res) => {
       return res.status(500).json({
         msg:
           "Error while creating new semester/program => ams/routes/semester.js",
-        ...err
+        err
       });
   }
 });
@@ -75,6 +75,28 @@ semesterRouter.patch("/update-semester", async (req, res) => {
     if (err)
       return res.status(500).json({
         msg: "Error updating semester derail => ams/routes/semester.js"
+      });
+  }
+});
+
+// deleting semester
+semesterRouter.delete("/delete-semester", async (req, res) => {
+  const { _id } = req.body;
+
+  try {
+    const deleteStatus = await semesterModel.deleteOne({ _id });
+
+    if (deleteStatus.deletedCount === 0 )
+      return res.status(400).json({
+        msg: "Semester do not exists."
+      });
+
+      res.status(200).json({msg: "Semester deleted successfulyy!"})
+  } catch (err) {
+    if (err)
+      return res.status(500).json({
+        msg: "Error deleting semester => ./routes/semester.js",
+        ...err
       });
   }
 });

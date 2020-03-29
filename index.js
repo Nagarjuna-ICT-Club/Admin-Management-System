@@ -15,7 +15,8 @@ app.use(require("morgan")("dev"));
 app.use(require("cors")());
 
 require("mongoose").connect(
-  `mongodb://localhost/nagarjuna-admin-management`,
+  `mongodb://localhost/nagarjuna-college-management`,
+  // `mongodb+srv://sangya2058:Carrier@g00gle@cluster0-yypwi.mongodb.net/nagarjuna-college-management?retryWrites=true&w=majority`,
   {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -23,7 +24,7 @@ require("mongoose").connect(
   },
   err => {
     if (err) return console.log(err);
-    else console.log("Database: Connected => Nagarjuna-Admin-Management");
+    else console.log("Database: Connected => nagarjuna-college-management");
   }
 );
 

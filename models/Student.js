@@ -18,6 +18,9 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Semester Program is required!"]
   },
+  semester: {
+    type: String
+  },
   created_at: {
     type: Date,
     default: Date.now()
