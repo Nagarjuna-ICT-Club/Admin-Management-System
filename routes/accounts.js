@@ -5,6 +5,7 @@ const axios = require("axios");
 
 // models
 const studentModel = require("../models/Student");
+const studentDetailsModel = require("../models/StudentDetails");
 const adminModel = require("../models/Admin");
 const adminDetailsModel = require("../models/AdminDetails");
 
@@ -14,15 +15,6 @@ const adminDetailsModel = require("../models/AdminDetails");
 //--------------------
 // create new admin   |
 //--------------------
-
-// post request for cross data reference -> php
-const crossAPI = async jsonData => {
-  try {
-    axios.post("http://sudeepmishra.com.np/newstudent", jsonData);
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 accountRouter.post("/new-admin", async (req, res) => {
   const _id = require("mongoose").Types.ObjectId();
@@ -56,21 +48,15 @@ accountRouter.post("/new-admin", async (req, res) => {
         .json({ msg: "Admin with that contact number already exists" });
 
     // if no previous data exists
-    const newAdminStatus = await newAdmin.save();
+    await newAdmin.save();
     if (!newAdminStatus)
       return res.status(400).json({ msg: "Error initializing admin data!" });
 
-    const newAdminDetailStatus = await newAdminDetail.save();
+    await newAdminDetail.save();
     if (!newAdminDetailStatus)
       return res
         .status(400)
         .json({ msg: "Error initializing admin detail data!" });
-
-    // posting data to web api
-    // crossAPI({
-    //   newAdmin: newAdminStatus,
-    //   newAdminDetail: newAdminDetailStatus
-    // });
 
     res.status(200).json({ msg: "New Admin created successfully!" });
   } catch (err) {
@@ -90,7 +76,10 @@ accountRouter.get("/get-admin", async (req, res) => {
     const adminDetail0 = await adminModel.find();
     const adminDetail1 = await adminDetailsModel.find();
 
-    if(!adminDetail0 || !adminDetail1) return res.status(400).json({msg: "Error fetching data => accounts router!"})
+    if (!adminDetail0 || !adminDetail1)
+      return res
+        .status(400)
+        .json({ msg: "Error fetching data => accounts router!" });
 
     res.status(200).json({
       admin: adminDetail0,
@@ -107,61 +96,162 @@ accountRouter.get("/get-admin", async (req, res) => {
 //  Update Admin      |
 //--------------------
 accountRouter.patch("/update-admin", async (req, res) => {
-  try{
-    
-  }catch(err){res.status(500).json({msg: "Error updating admin detail => accounts router!"})}
-})
+  try {
+    const { _id, email, password, full_name, contact_number } = req.body;
+
+    // backups
+    const backup0 = await adminModel.findOne({ _id });
+    const backup1 = await adminDetailsModel.findOne({ _id });
+
+    // check if there is any update or not => To reduce the processing time
+    if (
+      backup0.email == email &&
+      !require("bcrypt").compareSync(password, backup0.password) &&
+      backup1.full_name == full_name &&
+      backup1.contact_number == contact_number
+    )
+      return res
+        .status(400)
+        .json({ msg: "No update detected => accounts router!" });
+
+    let hashedPassword;
+    if (password) hashedPassword = require("bcrypt").hashSync(password, 10);
+
+    await adminModel.updateOne(
+      { _id },
+      {
+        $set: {
+          email: email || backup0.email,
+          password: hashedPassword || backup0.password
+        }
+      }
+    );
+
+    await adminDetailsModel.updateOne(
+      {
+        _id
+      },
+      {
+        $set: {
+          full_name: full_name || backup1.full_name,
+          contact_number: contact_number || backup1.contact_number
+        }
+      }
+    );
+
+    res.status(200).json({ msg: "Admin details updated successfully!" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ msg: "Error updating admin detail => accounts router!" });
+  }
+});
 
 // admin account crud ends
 // --------------------------------------------------------------------------------------------------------------------------------------------
 
-// new student
-//here student lists are required here
-accountRouter.post("/new-student", async (req, res) => {
-  const { full_name, year, program } = req.body;
+//----------------
+// new student    |
+//----------------
 
+// post request for cross data reference -> php
+const newStudentCrossAPI = jsonData => {
+  try {
+    axios.post("http://sudeepmishra.com.np/new_student", jsonData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const newStudentFunc = async (data, index, passedData) => {
+  const _id = require("mongoose").Types.ObjectId();
   const email =
-    full_name
+    data
       .split(" ")
       .join("")
       .toLowerCase() +
-    year +
+    passedData.year +
     "@nagarjunacollege.edu.np";
   const password =
-    full_name
+    data
       .split(" ")
       .join("")
-      .toLowerCase() + year;
+      .toLowerCase() + passedData.year;
 
   const newStudent = new studentModel({
-    full_name,
+    _id,
     email,
-    password,
-    program
+    password
   });
+
+  const newStudentDetail = new studentDetailsModel({
+    _id,
+    program_id: passedData.program_id,
+    semester_id: passedData.semester_id,
+    full_name: data
+  });
+
+  const emailExist = await studentModel.findOne({
+    email
+  });
+
+  if (emailExist) return `${data} already exists!`;
+
+  const newStudentStatus = await newStudent.save();
+  const newStudentDetailStatus = await newStudentDetail.save();
+
+  // posting data to web api
+    const checkData = {
+      _id: newStudentStatus._id,
+      email: newStudentStatus.email,
+      password: newStudentStatus.password,
+      full_name: newStudentDetailStatus.full_name,
+      program_id: newStudentDetailStatus.program_id,
+      semester_id: newStudentDetailStatus.semester_id,
+      created_at: newStudentStatus.created_at
+    }  
+
+    newStudentCrossAPI(checkData);
+};
+
+accountRouter.post("/new-student", async (req, res) => {
+  const { full_name, year, program_id, semester_id } = req.body;
   try {
-    // check if email already exists
-    const emailExist = await studentModel.findOne({
-      email
+    const strinfiedPassingData = {
+      year,
+      program_id,
+      semester_id
+    };
+
+    // this is used to create and check email existancy error;
+    let emailExistancyError = full_name.forEach((data, index) => {
+      newStudentFunc(data, index, strinfiedPassingData)
+        .then((response) => {
+          if (response) return `${data}'s credentials already exists!`;
+        })
+        .catch(err => {
+          return err;
+        });
     });
-
-    if (emailExist)
-      return res
-        .status(400)
-        .json({ msg: "Student with that email already exists!" });
-
-    await newStudent.save();
+    
+    // this is used to create and check email existancy error;
+    if (emailExistancyError)
+      return res.status(400).json({ msg: `${emailExistancyError}` });
 
     res.status(200).json({ msg: "Student account created successfully!" });
   } catch (err) {
     if (err)
       return res.status(500).json({
-        msg: "Error generating new"
+        msg:
+          "Error generating new student credentials => student account router: ./router/accounts"
       });
   }
 });
 
-// update student
+//------------------
+// update student   |
+//------------------
+
 accountRouter.patch("/update-student", async (req, res) => {
   const { password, email, semester } = req.body;
 

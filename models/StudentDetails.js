@@ -7,19 +7,15 @@ const stringTyped = (require, message) => {
   };
 };
 
-const studentSchema = new mongoose.Schema({
+const studentDetailSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Types.ObjectId,
     required: [true, "_id must be initiated!"]
   },
-  email: stringTyped(
-    true,
-    "Email is required => Admin Model Validation Error!"
-  ),
-  password: stringTyped(
-    true,
-    "Password is required => Admin Model Validation Error!"
-  ),
+  full_name: stringTyped(false),
+  contact_number: stringTyped(false),
+  semester_id: stringTyped(true, "Semester ID must be initiated!"),
+  program_id: stringTyped(true, "Program ID must be initiated!"),
   created_at: {
     type: Date,
     default: Date.now
@@ -30,4 +26,4 @@ const studentSchema = new mongoose.Schema({
   expires_at: stringTyped(false)
 });
 
-module.exports = studentModel = mongoose.model("student", studentSchema);
+module.exports = studentDetailsModel = mongoose.model("student_detail", studentDetailSchema);
