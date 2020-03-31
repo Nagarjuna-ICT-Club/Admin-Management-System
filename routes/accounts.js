@@ -201,17 +201,17 @@ const newStudentFunc = async (data, index, passedData) => {
   const newStudentDetailStatus = await newStudentDetail.save();
 
   // posting data to web api
-    const checkData = {
-      _id: newStudentStatus._id,
-      email: newStudentStatus.email,
-      password: newStudentStatus.password,
-      full_name: newStudentDetailStatus.full_name,
-      program_id: newStudentDetailStatus.program_id,
-      semester_id: newStudentDetailStatus.semester_id,
-      created_at: newStudentStatus.created_at
-    }  
+  const checkData = {
+    _id: newStudentStatus._id,
+    email: newStudentStatus.email,
+    password: newStudentStatus.password,
+    full_name: newStudentDetailStatus.full_name,
+    program_id: newStudentDetailStatus.program_id,
+    semester_id: newStudentDetailStatus.semester_id,
+    created_at: newStudentStatus.created_at
+  };
 
-    newStudentCrossAPI(checkData);
+  newStudentCrossAPI(checkData);
 };
 
 accountRouter.post("/new-student", async (req, res) => {
@@ -226,14 +226,14 @@ accountRouter.post("/new-student", async (req, res) => {
     // this is used to create and check email existancy error;
     let emailExistancyError = full_name.forEach((data, index) => {
       newStudentFunc(data, index, strinfiedPassingData)
-        .then((response) => {
+        .then(response => {
           if (response) return `${data}'s credentials already exists!`;
         })
         .catch(err => {
           return err;
         });
     });
-    
+
     // this is used to create and check email existancy error;
     if (emailExistancyError)
       return res.status(400).json({ msg: `${emailExistancyError}` });
@@ -251,9 +251,33 @@ accountRouter.post("/new-student", async (req, res) => {
 //------------------
 // update student   |
 //------------------
-
+const updateStudentCrossAPI = jsonData => {
+  try {
+    axios.post("http://sudeepmishra.com.np/api/update_profile", jsonData);
+  } catch (error) {
+    console.log(error);
+  }
+};
 accountRouter.patch("/update-student", async (req, res) => {
-  const { password, email, semester } = req.body;
+  const {
+    _id,
+    full_name,
+    email,
+    password,
+    program_id,
+    semester_id,
+    contact_number
+  } = req.body;
+
+  updateStudentCrossAPI({
+    _id,
+    full_name,
+    email,
+    password,
+    program_id,
+    semester_id,
+    contact_number
+  });
 
   const hashedPassword = require("bcrypt").hashSync(password, 10);
 
