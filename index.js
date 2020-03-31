@@ -15,8 +15,8 @@ app.use(require("morgan")("dev"));
 app.use(require("cors")());
 
 require("mongoose").connect(
-  `mongodb://localhost/nagarjuna-college-management`,
-  // `mongodb+srv://sangya2058:Carrier@g00gle@cluster0-yypwi.mongodb.net/nagarjuna-college-management?retryWrites=true&w=majority`,
+  // `mongodb://localhost/nagarjuna-college-management`,
+  `mongodb+srv://sangya2058:Carrier@g00gle@cluster0-yypwi.mongodb.net/nagarjuna-college-management?retryWrites=true&w=majority`,
   {
     useNewUrlParser: true,
     useCreateIndex: true,
