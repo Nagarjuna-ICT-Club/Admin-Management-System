@@ -251,13 +251,16 @@ accountRouter.post("/new-student", async (req, res) => {
 //------------------
 // update student   |
 //------------------
+
 const updateStudentCrossAPI = jsonData => {
   try {
     axios.post("http://sudeepmishra.com.np/api/update_profile", jsonData);
+    // Note: _id is most essential for this task
   } catch (error) {
     console.log(error);
   }
 };
+
 accountRouter.patch("/update-student", async (req, res) => {
   const {
     _id,
@@ -268,16 +271,6 @@ accountRouter.patch("/update-student", async (req, res) => {
     semester_id,
     contact_number
   } = req.body;
-
-  updateStudentCrossAPI({
-    _id,
-    full_name,
-    email,
-    password,
-    program_id,
-    semester_id,
-    contact_number
-  });
 
   const hashedPassword = require("bcrypt").hashSync(password, 10);
 
@@ -296,6 +289,17 @@ accountRouter.patch("/update-student", async (req, res) => {
     if (nochangeDetection)
       return res.status(400).json({
         msg: "Same credentials is already used!"
+      });
+
+      // when there is somthing changed
+      updateStudentCrossAPI({
+        _id,
+        full_name,
+        email,
+        password,
+        program_id,
+        semester_id,
+        contact_number
       });
 
     const updateStatus = await studentModel.updateOne(
