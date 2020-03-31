@@ -6,8 +6,12 @@ const axios = require("axios");
 // models
 const studentModel = require("../models/Student");
 const studentDetailsModel = require("../models/StudentDetails");
+
 const adminModel = require("../models/Admin");
 const adminDetailsModel = require("../models/AdminDetails");
+
+const teacherModel = require("../models/Teacher");
+const teacherDetailsModel = require("../models/TeacherDetails");
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 // admin account crud starts
@@ -243,13 +247,15 @@ accountRouter.delete("/delete-admin", async (req, res) => {
 //read student      |
 //------------------
 accountRouter.get("/get-student", async (req, res) => {
-  try{
-    const studentDetails  = await studentDetailsModel.find();
+  try {
+    const studentDetails = await studentDetailsModel.find();
 
-    if(!studentDetails) return res.status(400).json({msg: "Error while getting student data => accounts.js"})
+    if (!studentDetails) return res.status(400).json({
+      msg: "Error while getting student data => accounts.js"
+    })
 
     res.status(200).json(studentDetails);
-  }catch(err){
+  } catch (err) {
     res.status(500).json({
       msg: "Error while getting student data => accounts.js",
       err
@@ -536,4 +542,63 @@ accountRouter.delete("/delete-student", async (req, res) => {
 
 // student account crud ends
 //--------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//teacher account crud starts
+
+//-----------------------------
+// create teacher account     |
+//-----------------------------
+accountRouter.post("/new-teacher", async (req, res) => {
+  const _id = require("mongoose").Types.ObjectId();
+  const {
+    email,
+    password,
+    full_name,
+    contact_number,
+    subject_id,
+    semester_id
+  } = req.body;
+  //Note: Semester_id is passed as an array!
+
+  const newTeacher = new teacherModel({
+    _id,
+    email,
+    password: require('bcrypt').hashSync(password, 10)
+  });
+
+  const newTeacherDetail = new teacherDetailsModel({
+    _id,
+    full_name,
+    contact_number,
+    subject_id,
+    semester_id
+  })
+
+  try {
+    // check if email already exists or not
+    const emailExist = await teacherModel.findOne({
+      email
+    });
+
+    if (emailExist) return res.status(400).json({
+      msg: "Teacher with that email already exists!"
+    });
+
+    await newTeacher.save();
+    await newTeacherDetail.save();
+
+    res.status(200).json({
+      msg: "Teacher account created successfully!"
+    });
+  } catch (err) {
+    res.status(500).json({
+      msg: "Error creatng new teacher => account router!",
+      err
+    })
+  }
+})
+
+//teacher account crud ends
+//-----------------------------------------------------------------------------------------------------------------------------------------
 module.exports = accountRouter;
