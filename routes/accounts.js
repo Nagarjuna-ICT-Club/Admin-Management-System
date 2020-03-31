@@ -18,7 +18,12 @@ const adminDetailsModel = require("../models/AdminDetails");
 
 accountRouter.post("/new-admin", async (req, res) => {
   const _id = require("mongoose").Types.ObjectId();
-  const { email, password, full_name, contact_number } = req.body;
+  const {
+    email,
+    password,
+    full_name,
+    contact_number
+  } = req.body;
 
   const hashedPassword = require("bcrypt").hashSync(password, 10);
 
@@ -35,30 +40,34 @@ accountRouter.post("/new-admin", async (req, res) => {
 
   try {
     // check if email and contact number exist or not
-    const emailExist = await adminModel.findOne({ email });
+    const emailExist = await adminModel.findOne({
+      email
+    });
     if (emailExist)
       return res
         .status(400)
-        .json({ msg: "Admin with that email already exists" });
+        .json({
+          msg: "Admin with that email already exists"
+        });
 
-    const contactExist = await adminDetailsModel.findOne({ contact_number });
+    const contactExist = await adminDetailsModel.findOne({
+      contact_number
+    });
     if (contactExist)
       return res
         .status(400)
-        .json({ msg: "Admin with that contact number already exists" });
+        .json({
+          msg: "Admin with that contact number already exists"
+        });
 
     // if no previous data exists
     await newAdmin.save();
-    if (!newAdminStatus)
-      return res.status(400).json({ msg: "Error initializing admin data!" });
 
     await newAdminDetail.save();
-    if (!newAdminDetailStatus)
-      return res
-        .status(400)
-        .json({ msg: "Error initializing admin detail data!" });
 
-    res.status(200).json({ msg: "New Admin created successfully!" });
+    res.status(200).json({
+      msg: "New Admin created successfully!"
+    });
   } catch (err) {
     res.status(500).json({
       msg: "Error creating new admin => accounts router!",
@@ -79,7 +88,9 @@ accountRouter.get("/get-admin", async (req, res) => {
     if (!adminDetail0 || !adminDetail1)
       return res
         .status(400)
-        .json({ msg: "Error fetching data => accounts router!" });
+        .json({
+          msg: "Error fetching data => accounts router!"
+        });
 
     res.status(200).json({
       admin: adminDetail0,
@@ -88,20 +99,34 @@ accountRouter.get("/get-admin", async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ msg: "Error on reading admin data => accounts router!" });
+      .json({
+        msg: "Error on reading admin data => accounts router!"
+      });
   }
 });
 
 //--------------------
 //  Update Admin      |
 //--------------------
+
 accountRouter.patch("/update-admin", async (req, res) => {
   try {
-    const { _id, email, password, full_name, contact_number } = req.body;
+    // const _id = req.userID;//this must be used after authentication is added!
+    const {
+      _id,
+      email,
+      password,
+      full_name,
+      contact_number
+    } = req.body;
 
     // backups
-    const backup0 = await adminModel.findOne({ _id });
-    const backup1 = await adminDetailsModel.findOne({ _id });
+    const backup0 = await adminModel.findOne({
+      _id
+    });
+    const backup1 = await adminDetailsModel.findOne({
+      _id
+    });
 
     // check if there is any update or not => To reduce the processing time
     if (
@@ -112,43 +137,125 @@ accountRouter.patch("/update-admin", async (req, res) => {
     )
       return res
         .status(400)
-        .json({ msg: "No update detected => accounts router!" });
+        .json({
+          msg: "No update detected => accounts router!"
+        });
 
     let hashedPassword;
     if (password) hashedPassword = require("bcrypt").hashSync(password, 10);
 
-    await adminModel.updateOne(
-      { _id },
-      {
-        $set: {
-          email: email || backup0.email,
-          password: hashedPassword || backup0.password
-        }
+    await adminModel.updateOne({
+      _id
+    }, {
+      $set: {
+        email: email || backup0.email,
+        password: hashedPassword || backup0.password
       }
-    );
+    });
 
-    await adminDetailsModel.updateOne(
-      {
-        _id
-      },
-      {
-        $set: {
-          full_name: full_name || backup1.full_name,
-          contact_number: contact_number || backup1.contact_number
-        }
+    await adminDetailsModel.updateOne({
+      _id
+    }, {
+      $set: {
+        full_name: full_name || backup1.full_name,
+        contact_number: contact_number || backup1.contact_number
       }
-    );
+    });
 
-    res.status(200).json({ msg: "Admin details updated successfully!" });
+    res.status(200).json({
+      msg: "Admin details updated successfully!"
+    });
   } catch (err) {
     res
       .status(500)
-      .json({ msg: "Error updating admin detail => accounts router!" });
+      .json({
+        msg: "Error updating admin detail => accounts router!"
+      });
   }
 });
 
+//--------------------
+// Delete Admin      |
+//--------------------
+
+accountRouter.delete("/delete-admin", async (req, res) => {
+  try {
+    // const _id = req.userID;
+    const {
+      _id
+    } = req.body;
+
+    // check if email exists or not
+    const emailExist = await adminModel.findOne({
+      _id
+    });
+
+    if (!emailExist)
+      return res.status(400).json({
+        msg: "No admin found with that email!"
+      });
+
+    //-------------------------
+    // delete auth credentials|
+    //-------------------------
+
+    const deleteStatus = await adminModel.deleteOne({
+      _id
+    });
+
+    if (!deleteStatus)
+      return res.status(400).json({
+        msg: "Admin was not deleted!"
+      });
+
+    //-------------------------
+    // delete basic credentials|
+    //-------------------------
+
+    const deleteStatus1 = await adminDetailsModel.deleteOne({
+      _id
+    });
+
+    if (!deleteStatus1)
+      return res.status(400).json({
+        msg: "Admin was not deleted!"
+      });
+
+    res.status(200).json({
+      msg: "Admin deleted successfully!"
+    });
+  } catch (err) {
+    if (err)
+      return res.status(500).json({
+        msg: "Error deleting student => ams/routes/accounts.js"
+      });
+  }
+})
+
 // admin account crud ends
 // --------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+// student account crud starts
+
+//------------------
+//read student      |
+//------------------
+accountRouter.get("/get-student", async (req, res) => {
+  try{
+    const studentDetails  = await studentDetailsModel.find();
+
+    if(!studentDetails) return res.status(400).json({msg: "Error while getting student data => accounts.js"})
+
+    res.status(200).json(studentDetails);
+  }catch(err){
+    res.status(500).json({
+      msg: "Error while getting student data => accounts.js",
+      err
+    })
+  }
+})
 
 //----------------
 // new student    |
@@ -167,16 +274,16 @@ const newStudentFunc = async (data, index, passedData) => {
   const _id = require("mongoose").Types.ObjectId();
   const email =
     data
-      .split(" ")
-      .join("")
-      .toLowerCase() +
+    .split(" ")
+    .join("")
+    .toLowerCase() +
     passedData.year +
     "@nagarjunacollege.edu.np";
   const password =
     data
-      .split(" ")
-      .join("")
-      .toLowerCase() + passedData.year;
+    .split(" ")
+    .join("")
+    .toLowerCase() + passedData.year;
 
   const newStudent = new studentModel({
     _id,
@@ -215,7 +322,12 @@ const newStudentFunc = async (data, index, passedData) => {
 };
 
 accountRouter.post("/new-student", async (req, res) => {
-  const { full_name, year, program_id, semester_id } = req.body;
+  const {
+    full_name,
+    year,
+    program_id,
+    semester_id
+  } = req.body;
   try {
     const strinfiedPassingData = {
       year,
@@ -236,14 +348,17 @@ accountRouter.post("/new-student", async (req, res) => {
 
     // this is used to create and check email existancy error;
     if (emailExistancyError)
-      return res.status(400).json({ msg: `${emailExistancyError}` });
+      return res.status(400).json({
+        msg: `${emailExistancyError}`
+      });
 
-    res.status(200).json({ msg: "Student account created successfully!" });
+    res.status(200).json({
+      msg: "Student account created successfully!"
+    });
   } catch (err) {
     if (err)
       return res.status(500).json({
-        msg:
-          "Error generating new student credentials => student account router: ./router/accounts"
+        msg: "Error generating new student credentials => student account router: ./router/accounts"
       });
   }
 });
@@ -262,59 +377,63 @@ const updateStudentCrossAPI = jsonData => {
 };
 
 accountRouter.patch("/update-student", async (req, res) => {
+  // const _id = req.userID;//this must be used after authentication is added in frontend
   const {
     _id,
-    full_name,
     email,
     password,
+    contact_number,
     program_id,
-    semester_id,
-    contact_number
+    semester_id
   } = req.body;
 
   const hashedPassword = require("bcrypt").hashSync(password, 10);
 
   try {
     // check if email exists or not
-    const emailExist = await studentModel.findOne({ email });
+    const emailExist = await studentModel.findOne({
+      _id
+    }); //note: emailexist holds the auth data
 
     if (!emailExist)
-      return res.status(400).json({ msg: "No student found with that email!" });
-
-    const nochangeDetection = await require("bcrypt").compareSync(
-      password,
-      emailExist.password
-    );
-
-    if (nochangeDetection)
       return res.status(400).json({
-        msg: "Same credentials is already used!"
+        msg: "Error finding credentials!"
       });
 
-      // when there is somthing changed
-      updateStudentCrossAPI({
-        _id,
-        full_name,
-        email,
-        password,
-        program_id,
-        semester_id,
-        contact_number
-      });
+    const studentDetails = await studentDetailsModel.findOne({
+      _id
+    })
 
-    const updateStatus = await studentModel.updateOne(
-      {
-        email
-      },
-      {
-        password: hashedPassword,
-        semester
-      }
-    );
+    if (!studentDetails) return res.status(400).json({
+      msg: "Error finding credentials!"
+    });
+
+    // when there is somthing changed
+    updateStudentCrossAPI({
+      _id,
+      full_name: studentDetails.full_name,
+      email: email || emailExist.email,
+      password,
+      program_id: program_id || studentDetails.program_id,
+      semester_id: semester_id || studentDetails.semester_id,
+      contact_number: contact_number || studentDetails.contact_number
+    });
+
+    //-------------------------------
+    // update auth credentials       |
+    //-------------------------------
+    const updateStatus = await studentModel.updateOne({
+      _id
+    }, {
+      email: email || emailExist.email,
+      password: hashedPassword
+    });
 
     // if no change is done!
     if (updateStatus.nModified === 0)
-      return res.status(400).json({ msg: "No change found!" });
+      return res.status(400).json({
+        msg: "No change found!"
+      });
 
     // check if there is any error
     if (!updateStatus)
@@ -322,7 +441,33 @@ accountRouter.patch("/update-student", async (req, res) => {
         msg: "Error updating student => ams/routes/accounts"
       });
 
-    res.status(200).json({ msg: "Student credentials updated successfully!" });
+    //------------------------------------
+    // update student basic credentials   |
+    //------------------------------------
+    const updateStatus1 = await studentDetailsModel.updateOne({
+      _id
+    }, {
+      full_name: studentDetails.full_name,
+      program_id: program_id || studentDetails.program_id,
+      semester_id: semester_id || studentDetails.semester_id,
+      contact_number: contact_number || studentDetails.contact_number
+    });
+
+    // if no change is done!
+    if (updateStatus1.nModified === 0)
+      return res.status(400).json({
+        msg: "No change found!"
+      });
+
+    // check if there is any error
+    if (!updateStatus1)
+      return res.status(500).json({
+        msg: "Error updating student => ams/routes/accounts"
+      });
+
+    res.status(200).json({
+      msg: "Student credentials updated successfully!"
+    });
   } catch (err) {
     if (err)
       return res.status(500).json({
@@ -331,23 +476,52 @@ accountRouter.patch("/update-student", async (req, res) => {
   }
 });
 
-// delete student
+//------------------
+// delete student   |
+//------------------
+
 accountRouter.delete("/delete-student", async (req, res) => {
   try {
-    const { email } = req.body;
+    // const _id = req.userID;
+    const {
+      _id
+    } = req.body;
 
     // check if email exists or not
-    const emailExist = await studentModel.findOne({ email });
+    const emailExist = await studentModel.findOne({
+      _id
+    });
 
     if (!emailExist)
-      return res.status(400).json({ msg: "No student found with that email!" });
+      return res.status(400).json({
+        msg: "No student found with that email!"
+      });
+
+    //-------------------------
+    // delete auth credentials|
+    //-------------------------
 
     const deleteStatus = await studentModel.deleteOne({
-      email
+      _id
     });
 
     if (!deleteStatus)
-      return res.status(400).json({ msg: "Student was not deleted!" });
+      return res.status(400).json({
+        msg: "Student was not deleted!"
+      });
+
+    //-------------------------
+    // delete basic credentials|
+    //-------------------------
+
+    const deleteStatus1 = await studentDetailsModel.deleteOne({
+      _id
+    });
+
+    if (!deleteStatus1)
+      return res.status(400).json({
+        msg: "Student was not deleted!"
+      });
 
     res.status(200).json({
       msg: "Student deleted successfully!"
@@ -359,4 +533,7 @@ accountRouter.delete("/delete-student", async (req, res) => {
       });
   }
 });
+
+// student account crud ends
+//--------------------------------------------------------------------------------------------------------------------------------------------
 module.exports = accountRouter;
