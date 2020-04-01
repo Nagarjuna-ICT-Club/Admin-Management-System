@@ -323,21 +323,21 @@ accountRouter.post("/new-student", async (req, res) => {
     for (const student of newStudents) {
       const _id = mongoose.Types.ObjectId();
       const params = {
-        _id,
-        ...student,
+        _id,  
+        ...student, 
         program_id,
         semester_id
       };
       await createStudent(params);
 
       params.createdAt = new Date();
-
-      newStudentCrossAPI(JSON.stringify(params)); // try to call this api once per request
+      
+      newStudentCrossAPI([params]);
     }
 
     res.status(200).json({
       msg: "Student account created successfully!",
-      newStudents, // delete password if you want send this to FE
+      // newStudents, 
       duplicates: oldStudents // student who are already exists. you can show message using this array in FE
     });
   } catch (error) {
@@ -586,7 +586,7 @@ accountRouter.post("/new-teacher", async (req, res) => {
 //---------------------------
 // update teacher account   |
 //---------------------------
-accountRouter.patch("update-teacher", async (req, res) => {});
+accountRouter.patch("update-teacher", async (req, res) => { });
 
 //teacher account crud ends
 //-----------------------------------------------------------------------------------------------------------------------------------------
