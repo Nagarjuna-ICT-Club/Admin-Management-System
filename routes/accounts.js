@@ -323,21 +323,21 @@ accountRouter.post("/new-student", async (req, res) => {
     for (const student of newStudents) {
       const _id = mongoose.Types.ObjectId();
       const params = {
-        _id,  
-        ...student, 
+        _id,
+        ...student,
         program_id,
         semester_id
       };
       await createStudent(params);
 
       params.createdAt = new Date();
-      
+
       newStudentCrossAPI([params]);
     }
 
     res.status(200).json({
       msg: "Student account created successfully!",
-      // newStudents, 
+      // newStudents,
       duplicates: oldStudents // student who are already exists. you can show message using this array in FE
     });
   } catch (error) {
@@ -569,8 +569,8 @@ accountRouter.post("/new-teacher", async (req, res) => {
         msg: "Teacher with that email already exists!"
       });
 
-    await newTeacher.save();
-    await newTeacherDetail.save();
+    let promises = [newTeacher.save(), newTeacherDetail.save()];
+    await Promise.all(promises);
 
     res.status(200).json({
       msg: "Teacher account created successfully!"
@@ -586,7 +586,9 @@ accountRouter.post("/new-teacher", async (req, res) => {
 //---------------------------
 // update teacher account   |
 //---------------------------
-accountRouter.patch("update-teacher", async (req, res) => { });
+accountRouter.patch("update-teacher", async (req, res) => {
+  
+});
 
 //teacher account crud ends
 //-----------------------------------------------------------------------------------------------------------------------------------------
