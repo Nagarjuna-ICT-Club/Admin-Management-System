@@ -28,8 +28,10 @@ require("mongoose").connect(
   }
 );
 
+// api paths
 app.use("/api/admin/accounts", require("./routes/accounts"));
 app.use("/api/admin/semester", require("./routes/semester"));
+app.use("/api/admin/applications", require("./routes/applications"));
 
 // unknown request
 app.use((req, res) => {
