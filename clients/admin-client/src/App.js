@@ -8,6 +8,9 @@ import "popper.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min";
 
+// fontawesome package
+import "@fortawesome/fontawesome-free/css/all.css"
+
 // containers
 import Login from "./containers/Login";
 import Register from "./containers/Register"
