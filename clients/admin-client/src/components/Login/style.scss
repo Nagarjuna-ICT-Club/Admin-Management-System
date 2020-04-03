@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+html,
+body {
+  overflow-x: hidden;
+  background: rgb(151,200,249);
+  background: linear-gradient(90deg, rgba(151,200,249,1) 0%, rgba(159,231,238,1) 100%); 
+  font-family: 'Poppins', sans-serif;
+}
+
+.clr-white
+{
+  color: white;
+}
+.login-wrapper{
+  min-width: 340px;
+  margin: auto;
+  max-height: fit-content;
+  background-color: white;
+}
+.login-input, .form-input{
+  border: 0px solid #ced4da;
+  border-bottom: 1px solid #00000052;
+  border-radius:0px;
+}
+
+.login-form{
+  padding: 30px;
+}
+.login-form img{
+ width: 57%;
+  padding: 8px;
+}
+.img-container {
+  padding: 25px 0px;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 7px -3px;
+  border-radius: 54%;
+  margin-bottom: 10px !important;
+}
+.other_link{
+  text-align: right;
+}
+
+.sh{
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  right: 20px;
+}
+.sh:focus{
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.login-input:focus, .form-input:focus{
+  outline: 0 !important;
+  box-shadow: none;
+}
+.label{
+  background: #32cd32;
+  color: white;
+  padding: 5px;
+}
+.g-btn{
+  background-color: #76d976 !important;
+  border: #32cd32 !important;
+
+}
+.g-btn:focus, .g-btn:active, .g-btn:hover{
+  outline: 0 !important;
+  border: 1px solid #32cd32 !important;
+  background-color: transparent !important;
+  color: #32cd32 !important;
+  box-shadow: none !important;
+}
