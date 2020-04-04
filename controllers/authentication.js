@@ -33,6 +33,7 @@ module.exports = {
       res.header("auth-token", "bearer " + token).status(200).json({
         msg: "Logged in!",
         _id: adminExist._id,
+        token
       });
 
       req.userID = adminExist._id
