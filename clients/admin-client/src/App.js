@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 // containers
 import Login from "./containers/Login";
-// import Register from "./containers/Register";
+import Register from "./containers/Register";
 import Home from "./containers/Home";
 
 import isAuthenticated from "./helpers/isAuthenticated";
@@ -69,6 +69,8 @@ export default class App extends Component {
               )
             }
           />
+          <PrivateRoute path="/register-admin"
+          component={Register}/>
           <PrivateRoute
             path="/home"
             component={Home}
