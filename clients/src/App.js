@@ -17,6 +17,11 @@ import Login from "./containers/Login";
 import Register from "./containers/Register";
 import Home from "./containers/Home";
 
+window.onunload = () => {
+  // Clear the local storage
+  window.MyStorage.clear()
+}
+
 import isAuthenticated from "./helpers/isAuthenticated";
 
 function PrivateRoute({ component: Component, path, ...rest }) {
@@ -52,8 +57,8 @@ export default class App extends Component {
   logout = () => {
     localStorage.removeItem("access-token");
 
-    this.setState({isAuthenticated: false})
-  }
+    this.setState({ isAuthenticated: false });
+  };
   render() {
     return (
       <BrowserRouter>
@@ -69,13 +74,8 @@ export default class App extends Component {
               )
             }
           />
-          <PrivateRoute path="/register-admin"
-          component={Register}/>
-          <PrivateRoute
-            path="/home"
-            component={Home}
-            logout={this.logout}
-          />
+          <PrivateRoute path="/register-admin" component={Register} />
+          <PrivateRoute path="/home" component={Home} logout={this.logout} />
         </Switch>
       </BrowserRouter>
     );
