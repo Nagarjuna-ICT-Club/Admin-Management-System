@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 
+// packages
+import axios from "axios";
+import { toast } from 'react-toastify';
+
 // helper
 import ViewPassword from "../../helpers/ViewPassword";
-
-import Login from "../../api/login";
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -16,20 +18,23 @@ export default class LoginForm extends Component {
     };
   }
 
-  login = e => {
-    e.preventDefault();
-    
-    let { email, password } = this.state;
-
-    Login({ email, password });
-  };
-
   handleInputChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
   };
 
+  login = e => {
+    e.preventDefault();
+
+    const {email, password} = this.state;
+
+    axios.post("http://localhost:8080/api/admin/authentication/auth-admin", {email, password}).then(res => {
+      this.props.login(res.data.token);
+    }).catch(err => {
+      toast.error(err.response.data.msg)
+    })
+  }
   render() {
     return (
       <main className="mx-auto">
@@ -44,9 +49,10 @@ export default class LoginForm extends Component {
             onChange={this.handleInputChange}
             placeholder="Email"
             className="fields"
+            required
           />
           <br />
-          <ViewPassword handleChange={this.handleInputChange} />
+          <ViewPassword login={this.login} handleChange={this.handleInputChange} />
           <Link to="" className=" forgot">
             Forgot Password?
           </Link>

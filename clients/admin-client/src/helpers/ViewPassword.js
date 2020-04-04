@@ -17,6 +17,12 @@ export default class ViewPassword extends Component {
       this.setState({ secured: true });
     }
   };
+
+  enterPressed = e => { 
+    if(e.key === 'Enter'){
+      this.props.login(e)
+    }
+  }
   render() {
     return (
       <div>
@@ -31,6 +37,8 @@ export default class ViewPassword extends Component {
             name="password"
             className="fields"
             onChange={this.props.handleChange}
+            onKeyPress={this.enterPressed}
+            required
           />
           <button onClick={this.changeEye}>
             <i

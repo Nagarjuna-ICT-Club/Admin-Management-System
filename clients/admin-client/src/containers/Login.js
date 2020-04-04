@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+// package*s
+import { ToastContainer } from 'react-toastify';
+
 //components
 import LoginForm from "../components/Login/LoginForm";
 
@@ -8,9 +11,17 @@ import LoginForm from "../components/Login/LoginForm";
 import "../components/Login/style.css";
 
 export default class Login extends Component {
+  componentDidMount(){
+    this.wrapper = React.createRef();
+  }
+
+  login = (token) => {
+    this.props.login(token)
+  }
   render() {
     return (
-      <div className="container">
+      <div className="container" ref={this.wrapper}>
+      <ToastContainer/>
         {/* <!-- header starts --> */}
         <header>
           <Link to="/" className="backPage">
@@ -20,7 +31,7 @@ export default class Login extends Component {
         {/* <!-- header ends --> */}
 
         {/* main starts */}
-        <LoginForm />
+        <LoginForm login={this.login}/>
         {/* main ends */}
 
         {/* footer starts */}
