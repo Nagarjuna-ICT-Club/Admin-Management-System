@@ -52,7 +52,7 @@ main form .fields {
   border: none;
   background: transparent;
   border-bottom: 1px solid #e8e8e8;
-  width: 312px;
+  width: 272px;
   margin-bottom: 25px;
 }
 main form .fields:focus {
@@ -109,7 +109,7 @@ footer ul li a:hover{
     margin-right: 10px;
   }
   main form .fields {
-    width: 292px;
+    width: 252px;
   }
   main form .submit {
     width: 300px;

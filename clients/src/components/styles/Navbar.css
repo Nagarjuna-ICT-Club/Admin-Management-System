@@ -1,0 +1,61 @@
+.topBar {
+  background: #74b9ff;
+  color: #fff;
+  font-size: 16px;
+  padding: 18px 0;
+}
+.topBar ul{
+  margin: 0;
+  padding: 0;
+}
+.topBar ul li{
+  display: inline-block;
+  width: 50%;
+}
+.topBar a {
+  text-decoration: none;
+  color: #fff;
+}
+.topBar a:hover {
+  color: #fff;
+}
+
+.btn {
+  padding: 0;
+  color: #fff;
+  font-size: 16px;
+}
+.btn:hover{
+  color: #fff;
+}
+.btn.focus, .btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: .5rem 0;
+  margin: .125rem 0 0;
+  font-size: 1rem;
+  color: #6a6a6a;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: .25rem;
+}
+
+.dropdown-menu a{
+  color: #6a6a6a;
+}
+.dropdown-menu a:hover{
+  color: #6a6a6a;
+}

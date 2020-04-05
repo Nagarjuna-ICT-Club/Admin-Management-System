@@ -1,0 +1,68 @@
+.fa-chevron-left {
+  background: #a0ebec;
+  padding: 15px;
+}
+.sidebar{
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.MuiButton-text {
+  padding: 0 !important;
+}
+.MuiButton-root {
+  padding: 0;
+  border: none;
+  outline: none;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 16px;
+  min-width: 30px !important;
+  background: #a0ebec;
+}
+
+.drawer {
+  min-width: 250px;
+  max-width: 250px;
+  transition: all 0.3s;
+  background: #fff;
+  -webkit-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
+  -moz-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
+  box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
+}
+.drawer ul {
+  padding: 0;
+}
+.drawer ul li:nth-child(even) {
+  background: #fcfcfc;
+}
+.drawer li {
+  padding: 15px 20px;
+  font-size: 14px;
+  list-style: none;
+  color: #6a6a6a;
+}
+.drawer li a{
+    color: #6a6a6a;
+}
+.drawer li a:hover{
+    text-decoration: none;
+    color: #6a6a6a;
+}
+
+.sidebar ul{
+  margin: 0;
+  padding: 0;
+  padding-bottom: 20px;
+  color: #7a7a7a;
+}
+.sidebar ul li{
+  display: inline-block;
+  width: 50%;
+}
+.pageTitle{
+  border-bottom:  0.5px solid #9a9a9a;
+}
+.pageTitle .date{
+  color: #74b9ff;
+}
