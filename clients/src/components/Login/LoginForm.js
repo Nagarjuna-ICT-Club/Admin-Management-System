@@ -30,7 +30,7 @@ export default class LoginForm extends Component {
     const {email, password} = this.state;
 
     axios.post("http://localhost:8080/api/admin/authentication/auth-admin", {email, password}).then(res => {
-      this.props.login(res.data.token);
+      this.props.login(res.data.token, res.data.userData);
     }).catch(err => {
       toast.error(err.response.data.msg)
     })

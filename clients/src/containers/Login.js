@@ -15,8 +15,8 @@ export default class Login extends Component {
     this.wrapper = React.createRef();
   }
 
-  login = (token) => {
-    this.props.login(token)
+  login = (token , userData) => {
+    this.props.login(token, userData)
   }
   render() {
     return (

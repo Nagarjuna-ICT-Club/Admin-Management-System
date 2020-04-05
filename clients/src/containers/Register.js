@@ -16,7 +16,7 @@ export default class Register extends Component {
       <ToastContainer/>
         {/* <!-- header starts --> */}
         <header>
-          <Link to="/" className="backPage">
+          <Link to="/admin" className="backPage">
             <i className="fas fa-arrow-left"></i> Back to page
           </Link>
         </header>

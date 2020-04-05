@@ -1,5 +1,6 @@
 // models
 const adminModel = require("../models/Admin");
+const adminDetailsModel = require("../models/AdminDetails");
 
 module.exports = {
   adminAuthentication: async (req, res) => {
@@ -25,18 +26,27 @@ module.exports = {
 
       const token = await require("jsonwebtoken").sign(
         {
-            _id: adminExist._id
+          _id: adminExist._id,
         },
         process.env.SECRET_KEY
       );
+      const userData = await adminDetailsModel.findOne({ _id: adminExist._id });
 
-      res.header("auth-token", "bearer " + token).status(200).json({
-        msg: "Logged in!",
-        _id: adminExist._id,
-        token
-      });
+      const { full_name, contact_number } = userData;
+      res
+        .header("auth-token", "bearer " + token)
+        .status(200)
+        .json({
+          msg: "Logged in!",
+          _id: adminExist._id,
+          userData: {
+            full_name,
+            contact_number,
+          },
+          token,
+        });
 
-      req.userID = adminExist._id
+      req.userID = adminExist._id;
     } catch (err) {
       res.status(500).json({
         msg: "Error authenticating admin -> ./controllers/authentication.js",

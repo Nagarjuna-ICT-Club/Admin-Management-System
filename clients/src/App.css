@@ -1,0 +1,6 @@
+body{
+    overflow-x: hidden;
+    min-height: 905px;
+    background: #97c8f9;
+    background: linear-gradient(90deg, #97c8f9 0%, #9ee7ed 100%);
+}

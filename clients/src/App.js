@@ -14,13 +14,9 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 // containers
 import Login from "./containers/Login";
-import Register from "./containers/Register";
-import Home from "./containers/Home";
+import PrivateRoutes from "./containers/PrivateRoutes";
 
-window.onunload = () => {
-  // Clear the local storage
-  window.MyStorage.clear()
-}
+import "./App.css";
 
 import isAuthenticated from "./helpers/isAuthenticated";
 
@@ -39,43 +35,42 @@ function PrivateRoute({ component: Component, path, ...rest }) {
   );
 }
 export default class App extends Component {
+  componentDidMount() {
+    // check the jwt token and it its expired then remove the jwt toke from local storage
+  }
   constructor(props) {
     super(props);
 
     this.state = {
       isAuthenticated: isAuthenticated(),
+      userData: {},
     };
   }
 
-  login = (token) => {
+  login = (token, userData) => {
     localStorage.setItem("access-token", token);
+    localStorage.setItem("userData", JSON.stringify(userData));
+
     this.setState({
       isAuthenticated: true,
     });
-  };
-
-  logout = () => {
-    localStorage.removeItem("access-token");
-
-    this.setState({ isAuthenticated: false });
   };
   render() {
     return (
       <BrowserRouter>
         <Switch>
+          <PrivateRoute path="/admin" component={PrivateRoutes}/>
           <Route
             exact
             path="/"
             render={(props) =>
               this.state.isAuthenticated ? (
-                <Redirect to="/home" userID={this.state.userID} />
+                <Redirect to="/admin" />
               ) : (
                 <Login login={this.login} />
               )
             }
           />
-          <PrivateRoute path="/register-admin" component={Register} />
-          <PrivateRoute path="/home" component={Home} logout={this.logout} />
         </Switch>
       </BrowserRouter>
     );

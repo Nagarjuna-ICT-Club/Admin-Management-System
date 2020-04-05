@@ -1,6 +1,4 @@
-html,
 body {
-  overflow-x: hidden;
   background: #97c8f9;
   background: linear-gradient(90deg, #97c8f9 0%, #9ee7ed 100%);
 }
@@ -133,10 +131,10 @@ footer ul li a:hover{
   main form .submit {
     width: 290px;
   }
-  main footer {
+  footer {
     margin-top: 50px;
   }
-  main footer .text-md-right {
+  footer .text-md-right {
     display: none;
   }
 }

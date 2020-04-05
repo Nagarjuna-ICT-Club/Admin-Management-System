@@ -35,7 +35,7 @@ export default class RegisterForm extends Component {
         contact_number
       })
       .then((res) => {
-        toast.success(res.data.msg)
+        toast.success(res.data.msg);
       })
       .catch((err) => {
         toast.error(err.response.data.msg);
