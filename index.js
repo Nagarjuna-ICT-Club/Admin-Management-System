@@ -34,8 +34,15 @@ app.use("/api/admin/semester", require("./routes/semester"));
 app.use("/api/admin/applications", require("./routes/applications"));
 app.use("/api/admin/authentication", require("./routes/authentication"));
 
+const path = require('path');
+app.use(require("express").static(path.join(__dirname, 'client/build')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 // unknown request
-app.use((req, res) => {
+app.use("/api",(req, res) => {
   res.status(404).json({
     msg: "404 API not found!"
   });
