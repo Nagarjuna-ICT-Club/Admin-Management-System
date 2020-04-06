@@ -32,21 +32,17 @@ module.exports = {
       );
       const userData = await adminDetailsModel.findOne({ _id: adminExist._id });
 
-      const { full_name, contact_number } = userData;
-      res
-        .header("auth-token", "bearer " + token)
-        .status(200)
-        .json({
-          msg: "Logged in!",
-          _id: adminExist._id,
-          userData: {
-            full_name,
-            contact_number,
-          },
-          token,
-        });
+      const { full_name } = userData;
+      
+      res.status(200).json({
+        msg: "Logged in!",
+        _id: adminExist._id,
+        userData: {
+          full_name
+        },
+        token: `bearer ${token}`
+      });
 
-      req.userID = adminExist._id;
     } catch (err) {
       res.status(500).json({
         msg: "Error authenticating admin -> ./controllers/authentication.js",

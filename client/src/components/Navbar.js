@@ -27,7 +27,7 @@ export default class Navbar extends Component {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      <i class="far fa-user"></i> {this.props.userName}
+                      <i className="far fa-user"></i> {this.props.userName}
                     </button>
                     <div
                       className="dropdown-menu"
@@ -40,6 +40,7 @@ export default class Navbar extends Component {
                         My account
                       </Link>
                       <Link
+                      to="/"
                         className="dropdown-item"
                         onClick={() => {
                           localStorage.clear();

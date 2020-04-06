@@ -4,7 +4,7 @@ import Logo from "../../assets/logo.png";
 
 // packages
 import axios from "axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 // helper
 import ViewPassword from "../../helpers/ViewPassword";
@@ -14,27 +14,40 @@ export default class LoginForm extends Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
     };
   }
 
-  handleInputChange = e => {
+  handleInputChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  login = e => {
+  login = (e) => {
     e.preventDefault();
 
-    const {email, password} = this.state;
+    const { email, password } = this.state;
 
-    axios.post("http://localhost:8080/api/admin/authentication/auth-admin", {email, password}).then(res => {
-      this.props.login(res.data.token, res.data.userData);
-    }).catch(err => {
-      toast.error(err.response.data.msg)
-    })
-  }
+    axios
+      .post("http://localhost:8080/api/admin/authentication/auth-admin", {
+        email: email.toLowerCase(),
+        password,
+      })
+      .then((res) => {
+        this.props.login(res.data.token, res.data.userData);
+
+        axios.defaults.headers.common["Auth-Token"] = res.data.token;
+
+        console.table(axios.defaults.headers.common);
+      })
+      .catch((err) => {
+        if (err && err.response && err.response.status)
+          toast.error(err.response.data.msg);
+
+        console.log(err.request);
+      });
+  };
   render() {
     return (
       <main className="mx-auto">
@@ -52,15 +65,14 @@ export default class LoginForm extends Component {
             required
           />
           <br />
-          <ViewPassword login={this.login} handleChange={this.handleInputChange} />
+          <ViewPassword
+            login={this.login}
+            handleChange={this.handleInputChange}
+          />
           <Link to="" className=" forgot">
             Forgot Password?
           </Link>
-          <button
-            type="submit"
-            className="submit"
-            onClick={this.login}
-          >
+          <button type="submit" className="submit" onClick={this.login}>
             Login
           </button>
         </form>

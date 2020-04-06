@@ -12,6 +12,9 @@ import "bootstrap/dist/js/bootstrap.min";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "react-toastify/dist/ReactToastify.min.css";
 
+// tailwind
+import "tailwindcss/dist/tailwind.min.css"
+
 // containers
 import Login from "./containers/Login";
 import PrivateRoutes from "./containers/PrivateRoutes";

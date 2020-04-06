@@ -108,7 +108,7 @@ export default function Sidebar(props) {
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <ul>
               <li>
-                <i class="fas fa-home"></i> Hey, {props.userName}
+                <i className="fas fa-home"></i> Hey, {props.userName}
               </li>
               <li className="text-right">
                 Today: <span className="date">{moment().format("MMM Do YY")}</span>

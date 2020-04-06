@@ -6,6 +6,7 @@ import ListUser from "./ListUser";
 import Register from "./Register";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 
 export default class PrivateRoutes extends Component {
   componentDidMount() {
@@ -31,6 +32,7 @@ export default class PrivateRoutes extends Component {
           <Route path="/admin/user-list" component={ListUser} />
           <Route path="/admin/register-admin" component={Register} />
         </Switch>
+        <Footer/>
       </BrowserRouter>
     );
   }
