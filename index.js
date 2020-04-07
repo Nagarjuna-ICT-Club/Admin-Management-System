@@ -28,10 +28,14 @@ require("mongoose").connect(
   }
 );
 
+//auth middleware
+const {userTokenValidation} = require("./middleware/authentication");
+
 // api paths
-app.use("/api/admin/accounts", require("./routes/accounts"));
-app.use("/api/admin/semester", require("./routes/semester"));
-app.use("/api/admin/applications", require("./routes/applications"));
+// app.use("/api/admin/accounts", require("./routes/accounts"));
+app.use("/api/admin/accounts", userTokenValidation, require("./routes/accounts"));
+app.use("/api/admin/semester", userTokenValidation, require("./routes/semester"));
+app.use("/api/admin/applications", userTokenValidation, require("./routes/applications"));
 app.use("/api/admin/authentication", require("./routes/authentication"));
 
 const path = require('path');

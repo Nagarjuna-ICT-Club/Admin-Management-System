@@ -74,6 +74,8 @@ accountRouter.post("/new-admin", async(req, res) => {
 //--------------------
 //  Read Admin        |
 //--------------------
+const {getCurrentUserData} = require("../controllers/getCurrentUserInfo")
+accountRouter.get("/get-current-user", getCurrentUserData);
 
 accountRouter.get("/get-admin", async(req, res) => {
     try {

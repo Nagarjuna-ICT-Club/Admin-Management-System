@@ -1,6 +1,5 @@
 // models
 const adminModel = require("../models/Admin");
-const adminDetailsModel = require("../models/AdminDetails");
 
 module.exports = {
   adminAuthentication: async (req, res) => {
@@ -28,21 +27,14 @@ module.exports = {
         {
           _id: adminExist._id,
         },
-        process.env.SECRET_KEY
+        process.env.SECRET_KEY,
+        { expiresIn: "1h" }
       );
-      const userData = await adminDetailsModel.findOne({ _id: adminExist._id });
 
-      const { full_name } = userData;
-      
       res.status(200).json({
         msg: "Logged in!",
-        _id: adminExist._id,
-        userData: {
-          full_name
-        },
-        token: `bearer ${token}`
+        token: `Bearer ${token}`,
       });
-
     } catch (err) {
       res.status(500).json({
         msg: "Error authenticating admin -> ./controllers/authentication.js",

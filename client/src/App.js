@@ -46,13 +46,11 @@ export default class App extends Component {
 
     this.state = {
       isAuthenticated: isAuthenticated(),
-      userData: {},
     };
   }
 
-  login = (token, userData) => {
+  login = (token) => {
     localStorage.setItem("access-token", token);
-    localStorage.setItem("userData", JSON.stringify(userData));
 
     this.setState({
       isAuthenticated: true,

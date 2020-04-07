@@ -27,18 +27,28 @@ export default class RegisterForm extends Component {
 
     const { email, password, full_name, contact_number } = this.state;
 
+    const token = localStorage.getItem("access-token");
+
     axios
-      .post("http://localhost:8080/api/admin/accounts/new-admin", {
-        email,
-        password,
-        full_name,
-        contact_number
-      })
+      .post(
+        "http://localhost:8080/api/admin/accounts/new-admin",
+        {
+          email,
+          password,
+          full_name,
+          contact_number,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((res) => {
         toast.success(res.data.msg);
       })
       .catch((err) => {
-        toast.error(err.response.data.msg);
+        if (err && err.response) toast.error(err.response.data.msg);
       });
   };
   render() {
@@ -71,7 +81,8 @@ export default class RegisterForm extends Component {
             placeholder="Password"
             className="fields"
             required
-          /><br/>
+          />
+          <br />
           <input
             type="text"
             name="contact_number"

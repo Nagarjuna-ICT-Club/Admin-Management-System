@@ -35,11 +35,7 @@ export default class LoginForm extends Component {
         password,
       })
       .then((res) => {
-        this.props.login(res.data.token, res.data.userData);
-
-        axios.defaults.headers.common["Auth-Token"] = res.data.token;
-
-        console.table(axios.defaults.headers.common);
+        this.props.login(res.data.token);
       })
       .catch((err) => {
         if (err && err.response && err.response.status)
