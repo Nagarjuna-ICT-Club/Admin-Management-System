@@ -1,5 +1,12 @@
 import React, { Component } from "react";
 
+const buttonStyle = {
+  width: "100%",
+  padding: "5px 38%",
+  textAlign: "center",
+  background: "#74b9ff",
+  color: "#fff",
+};
 export default class UserFilterer extends Component {
   constructor(props) {
     super(props);
@@ -25,14 +32,32 @@ export default class UserFilterer extends Component {
   onFinalChange = (e) => {
     e.preventDefault();
 
-    const {userType, program, semester, group, reported, blacklisted} = this.state;
-    this.props.getUsers(userType, program, semester, group, reported, blacklisted)
-  }
+    const {
+      userType,
+      program,
+      semester,
+      group,
+      reported,
+      blacklisted,
+    } = this.state;
+    this.props.getUsers(
+      userType,
+      program,
+      semester,
+      group,
+      reported,
+      blacklisted
+    );
+  };
 
   render() {
     return (
       <div>
-        <select className="userType" name="userType" onChange={this.onFieldChange}>
+        <select
+          className="userType"
+          name="userType"
+          onChange={this.onFieldChange}
+        >
           <option selected disabled>
             Select User
           </option>
@@ -43,7 +68,11 @@ export default class UserFilterer extends Component {
         <hr />
         <ul className="sortBy">
           <li>
-            <select className="userType program" name="program" onChange={this.onFieldChange}>
+            <select
+              className="userType program"
+              name="program"
+              onChange={this.onFieldChange}
+            >
               <option selected disabled>
                 Program*{" "}
               </option>
@@ -55,7 +84,12 @@ export default class UserFilterer extends Component {
           </li>
 
           <li>
-            <select className="userType semester" name="semester" id="semester" onChange={this.onFieldChange}>
+            <select
+              className="userType semester"
+              name="semester"
+              id="semester"
+              onChange={this.onFieldChange}
+            >
               <option selected disabled>
                 Semester*{" "}
               </option>
@@ -71,7 +105,12 @@ export default class UserFilterer extends Component {
           </li>
 
           <li>
-            <select className="userType group" name="group" id = "group" onChange={this.onFieldChange}>
+            <select
+              className="userType group"
+              name="group"
+              id="group"
+              onChange={this.onFieldChange}
+            >
               <option selected disabled>
                 Group{" "}
               </option>
@@ -87,7 +126,11 @@ export default class UserFilterer extends Component {
           </li>
 
           <li>
-            <select className="userType reported" name="reported" onChange={this.onFieldChange}>
+            <select
+              className="userType reported"
+              name="reported"
+              onChange={this.onFieldChange}
+            >
               <option selected disabled>
                 Reported{" "}
               </option>
@@ -96,7 +139,11 @@ export default class UserFilterer extends Component {
           </li>
 
           <li>
-            <select className="userType blacklisted" name="blacklisted" onChange={this.onFieldChange}>
+            <select
+              className="userType blacklisted"
+              name="blacklisted"
+              onChange={this.onFieldChange}
+            >
               <option selected disabled>
                 Blacklisted
               </option>
@@ -104,7 +151,9 @@ export default class UserFilterer extends Component {
             </select>
           </li>
           <li>
-            <button onClick={this.onFinalChange} className="searchByFilter">Search</button>
+            <button onClick={this.onFinalChange} className="searchByFilter" style={buttonStyle}>
+              Search
+            </button>
           </li>
         </ul>
       </div>

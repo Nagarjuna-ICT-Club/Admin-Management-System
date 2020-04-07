@@ -38,12 +38,12 @@ app.use("/api/admin/semester", userTokenValidation, require("./routes/semester")
 app.use("/api/admin/applications", userTokenValidation, require("./routes/applications"));
 app.use("/api/admin/authentication", require("./routes/authentication"));
 
-const path = require('path');
-app.use(require("express").static(path.join(__dirname, 'client/build')));
+// const path = require('path');
+// app.use(require("express").static(path.join(__dirname, 'client/build')));
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 // unknown request
 app.use("/api",(req, res) => {

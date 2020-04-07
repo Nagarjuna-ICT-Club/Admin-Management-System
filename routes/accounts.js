@@ -233,7 +233,7 @@ accountRouter.get("/get-student", async(req, res) => {
                 msg: "Error while getting student data => accounts.js"
             });
 
-        res.status(200).json(studentDetails);
+        res.status(200).json({studentDetails});
     } catch (err) {
         res.status(500).json({
             msg: "Error while getting student data => accounts.js",

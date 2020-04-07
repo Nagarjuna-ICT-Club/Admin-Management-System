@@ -22,6 +22,7 @@ import PrivateRoutes from "./containers/PrivateRoutes";
 import "./App.css";
 
 import isAuthenticated from "./helpers/isAuthenticated";
+import PageNotFound from "./containers/404";
 
 function PrivateRoute({ component: Component, path, ...rest }) {
   return (
@@ -72,6 +73,7 @@ export default class App extends Component {
               )
             }
           />
+          <Route path="*" component={PageNotFound}/>
         </Switch>
       </BrowserRouter>
     );
