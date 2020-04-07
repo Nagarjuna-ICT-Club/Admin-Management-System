@@ -1,7 +1,13 @@
-const isAuthenticated = () => {
-  let isAuthenticated = localStorage.getItem("access-token");
+import jwtDecode from "jwt-decode"
 
-  return isAuthenticated ? true : false;
-};
-
-export default isAuthenticated;
+export default function isAuthenticated() {
+  let token = localStorage.getItem("access-token");
+  if(token === null) return false
+   
+  const { exp } = jwtDecode(token.split(" ")[1]);
+  if (exp < (new Date().getTime() + 1) / 1000) {
+    return false;
+  }else{
+    return true
+  }
+}

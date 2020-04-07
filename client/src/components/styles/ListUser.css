@@ -23,8 +23,7 @@
   padding-left: 40px;
   border-right: 1px solid #74b9ff;
 }
-.statusCards .col-xl-4.col-lg-4.col-md-6.col-sm-6 .fa-chalkboard-teacher
-{
+.statusCards .col-xl-4.col-lg-4.col-md-6.col-sm-6 .fa-chalkboard-teacher {
   color: #fdcb6e;
 }
 .statusCards .col-xl-4.col-lg-4.col-md-6.col-sm-6 .fa-user-secret {
@@ -41,58 +40,58 @@
   margin-top: 30px;
   width: 100%;
 }
-.listOfUser .col-xl-3.col-lg-4.col-md-4.col-sm-12{
-    padding-left: 0;
+.listOfUser .col-xl-3.col-lg-4.col-md-4.col-sm-12 {
+  padding-left: 0;
 }
 
 .listOfUser .filterName {
-  padding: 5%;    
+  padding: 5%;
   background: #fff;
   -webkit-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
   -moz-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
   box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
 }
 
-.listOfUser .filterName input[type=text]{
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 15px;
+.listOfUser .filterName input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 15px;
 }
-.listOfUser .filterName input.submit{
-    width: 100;
-    padding: 5px 38%;
-    text-align: center;
-    background: #74b9ff;
-    color: #fff;
+.listOfUser .filterName input.submit {
+  width: 100;
+  padding: 5px 38%;
+  text-align: center;
+  background: #74b9ff;
+  color: #fff;
 }
-.filterGroup{
-  background: #fff;
+.filterGroup {
   margin-top: 30px;
+  background: #fff;
   -webkit-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
   -moz-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
   box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
   padding: 5%;
 }
-.filterGroup hr{
+.filterGroup hr {
   margin: 2px 0;
   padding: 2px 0;
 }
-.filterGroup .userType{
+.filterGroup .userType {
   background: transparent;
   border: none;
   outline: none;
   width: 100%;
   margin: 10px 0;
   cursor: pointer;
-  -webkit-appearance:none;
-   -moz-appearance:none;
-   -ms-appearance:none;
-   appearance:none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
 }
-.filterGroup ul{
+.filterGroup ul {
   margin: 0;
 }
-.userCard{
+.userCard {
   background: #fff;
   -webkit-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
   -moz-box-shadow: 7px 9px 47px -23px rgba(112, 161, 255, 0.45);
@@ -103,10 +102,10 @@
   margin-bottom: 15px;
   padding: 15px;
 }
-.userCardLists{
+.userCardLists {
   padding: 0;
 }
-.userCardLists li:nth-child(3n){
+.userCardLists li:nth-child(3n) {
   margin-right: 0;
 }
 @media only screen and (max-width: 1199px) {
@@ -117,13 +116,13 @@
     border: none;
   }
 
-  .userCard{
+  .userCard {
     width: 49%;
   }
-  .userCardLists li:nth-child(3n){
+  .userCardLists li:nth-child(3n) {
     margin-right: 2%;
   }
-  .userCardLists li:nth-child(2n){
+  .userCardLists li:nth-child(2n) {
     margin-right: 0;
   }
 }
@@ -151,12 +150,12 @@
   .statusCards .row div:nth-child(2) .icon {
     margin-left: 70px;
   }
-  .listOfUser .filterName input.submit{
+  .listOfUser .filterName input.submit {
     padding: 5px 45%;
-}
-.userCard{
-  margin-top: 30px;
-}
+  }
+  .userCard {
+    margin-top: 30px;
+  }
 }
 @media only screen and (max-width: 575px) {
   .statusCards .icon {
@@ -179,13 +178,13 @@
   .statusCards .row div:nth-child(2) .icon {
     margin-left: 160px;
   }
-  .userCard{
+  .userCard {
     width: 100%;
   }
-  .userCardLists li:nth-child(3n){
+  .userCardLists li:nth-child(3n) {
     margin-right: 0;
   }
-  .userCardLists li:nth-child(2n){
+  .userCardLists li:nth-child(2n) {
     margin-right: 0;
   }
 }

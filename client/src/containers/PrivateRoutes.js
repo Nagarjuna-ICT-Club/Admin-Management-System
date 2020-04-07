@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 // packages
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import {toast, ToastContainer} from 'react-toastify'
 
 export default class PrivateRoutes extends Component {
   componentDidMount() {
@@ -26,10 +27,10 @@ export default class PrivateRoutes extends Component {
           userData: res.data
         })
       })
-      .catch((err) => {});
-    // this.setState({
-    //   userData: JSON.parse(data),
-    // });
+      .catch((err) => {
+        if (err && err.response && err.response.status)
+          toast.error(err.response.data.msg);
+      });
   }
   constructor(props) {
     super(props);
@@ -43,6 +44,7 @@ export default class PrivateRoutes extends Component {
   render() {
     return (
       <BrowserRouter>
+      <ToastContainer/>
         <Navbar userName={this.state.userData.detailData.full_name} />
         <Sidebar userName={this.state.userData.detailData.full_name} />
         <Switch>

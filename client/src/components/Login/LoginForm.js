@@ -40,8 +40,6 @@ export default class LoginForm extends Component {
       .catch((err) => {
         if (err && err.response && err.response.status)
           toast.error(err.response.data.msg);
-
-        console.log(err.request);
       });
   };
   render() {

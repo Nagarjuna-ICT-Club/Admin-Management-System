@@ -12,7 +12,7 @@ export default class StatusCard extends Component {
                 <span className="cardTitle">Students</span>
               </div>
               <div className="icon align-self-center">
-                <i class="fas fa-user-graduate"></i>
+                <i className="fas fa-user-graduate"></i>
               </div>
             </div>
             <div className="col-xl-4 col-lg-4 col-md-6 col-sm-6 d-flex">
@@ -21,7 +21,7 @@ export default class StatusCard extends Component {
                 <span className="cardTitle">Teachers</span>
               </div>
               <div className="icon align-self-center">
-                <i class="fas fa-chalkboard-teacher"></i>
+                <i className="fas fa-chalkboard-teacher"></i>
               </div>
             </div>
             <div className="col-xl-4 col-lg-4 col-md-6 col-sm-6 d-flex">
@@ -30,7 +30,7 @@ export default class StatusCard extends Component {
                 <span className="cardTitle">Admins</span>
               </div>
               <div className="icon align-self-center">
-                <i class="fas fa-user-secret"></i>
+                <i className="fas fa-user-secret"></i>
               </div>
             </div>
           </div>

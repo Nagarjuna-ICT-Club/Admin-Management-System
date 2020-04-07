@@ -11,15 +11,16 @@ export default class Home extends Component {
     return (
       <div className="home">
         <div className="container">
-          Welcome to home!
+          Welcome to home!<br/>
           <button
             onClick={() => {
               this.logout();
             }}
           >
             logout
-          </button>
-          <Link to="/admin/user-list">UserList</Link>
+          </button><br/>
+          <Link to="/admin/user-list">UserList</Link><br/>
+          <Link to="/admin/register-admin">Register admin</Link>
         </div>
       </div>
     );

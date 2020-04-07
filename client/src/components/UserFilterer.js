@@ -1,58 +1,113 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export default class UserFilterer extends Component {
-    render() {
-        return (
-            <div>
-                <select className="userType">
-                <option selected disabled>Select User</option>
-                  <option value="volvo">Students </option>
-                  <option value="saab">Teacher</option>
-                  <option value="opel">Admins</option>
-                </select>
-                <hr />
-                <ul className="sortBy">
-                  <li>
-                    <select className="userType">
-                      <option selected disabled>Program* </option>
-                      <option value="saab">BSc.CSIT</option>
-                      <option value="opel">BIT</option>
-                    </select>
-                  </li>
+  constructor(props) {
+    super(props);
 
-                  <li>
-                    <select className="userType">
-                      <option selected disabled>Semester* </option>
-                      <option value="saab">BSc.CSIT</option>
-                      <option value="opel">BIT</option>
-                    </select>
-                  </li>
+    this.state = {
+      userType: "",
+      program: "",
+      semester: "",
+      group: "",
+      reported: "",
+      blacklisted: "",
+    };
+  }
 
-                  <li>
-                    <select className="userType">
-                      <option selected disabled>Group </option>
-                      <option value="saab">BSc.CSIT</option>
-                      <option value="opel">BIT</option>
-                    </select>
-                  </li>
+  onFieldChange = (e) => {
+    e.preventDefault();
 
-                  <li>
-                    <select className="userType">
-                      <option selected disabled>Reported </option>
-                      <option value="saab">BSc.CSIT</option>
-                      <option value="opel">BIT</option>
-                    </select>
-                  </li>
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
 
-                  <li>
-                    <select className="userType">
-                      <option selected disabled>Blacklisted</option>
-                      <option value="saab">BSc.CSIT</option>
-                      <option value="opel">BIT</option>
-                    </select>
-                  </li>
-                </ul>
-            </div>
-        )
-    }
+  onFinalChange = (e) => {
+    e.preventDefault();
+
+    const {userType, program, semester, group, reported, blacklisted} = this.state;
+    this.props.getUsers(userType, program, semester, group, reported, blacklisted)
+  }
+
+  render() {
+    return (
+      <div>
+        <select className="userType" name="userType" onChange={this.onFieldChange}>
+          <option selected disabled>
+            Select User
+          </option>
+          <option value="student">Students </option>
+          <option value="teacher">Teacher</option>
+          <option value="admin">Admins</option>
+        </select>
+        <hr />
+        <ul className="sortBy">
+          <li>
+            <select className="userType program" name="program" onChange={this.onFieldChange}>
+              <option selected disabled>
+                Program*{" "}
+              </option>
+              <option value="csit">BSc.CSIT</option>
+              <option value="bit">BIT</option>
+              <option value="bca">BCA</option>
+              <option value="bim">BIM</option>
+            </select>
+          </li>
+
+          <li>
+            <select className="userType semester" name="semester" id="semester" onChange={this.onFieldChange}>
+              <option selected disabled>
+                Semester*{" "}
+              </option>
+              <option value="first">First</option>
+              <option value="second">Second</option>
+              <option value="third">Third</option>
+              <option value="fourth">Fourth</option>
+              <option value="fifth">Fifth</option>
+              <option value="sixth">Sixth</option>
+              <option value="seventh">Seventh</option>
+              <option value="eighth">Eighth</option>
+            </select>
+          </li>
+
+          <li>
+            <select className="userType group" name="group" id = "group" onChange={this.onFieldChange}>
+              <option selected disabled>
+                Group{" "}
+              </option>
+              <option value="first">First</option>
+              <option value="second">Second</option>
+              <option value="third">Third</option>
+              <option value="fourth">Fourth</option>
+              <option value="fifth">Fifth</option>
+              <option value="sixth">Sixth</option>
+              <option value="seventh">Seventh</option>
+              <option value="eighth">Eighth</option>
+            </select>
+          </li>
+
+          <li>
+            <select className="userType reported" name="reported" onChange={this.onFieldChange}>
+              <option selected disabled>
+                Reported{" "}
+              </option>
+              <option value="true">true</option>
+            </select>
+          </li>
+
+          <li>
+            <select className="userType blacklisted" name="blacklisted" onChange={this.onFieldChange}>
+              <option selected disabled>
+                Blacklisted
+              </option>
+              <option value="true">true</option>
+            </select>
+          </li>
+          <li>
+            <button onClick={this.onFinalChange} className="searchByFilter">Search</button>
+          </li>
+        </ul>
+      </div>
+    );
+  }
 }
