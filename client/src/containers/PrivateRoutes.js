@@ -31,6 +31,11 @@ export default class PrivateRoutes extends Component {
         if (err && err.response && err.response.status)
           toast.error(err.response.data.msg);
       });
+
+      if(this.state.userData === null){
+        localStorage.clear();
+        window.location.reload();
+      }
   }
   constructor(props) {
     super(props);

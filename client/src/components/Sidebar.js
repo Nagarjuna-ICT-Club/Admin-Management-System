@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -45,41 +46,41 @@ export default function Sidebar(props) {
     >
       <ul>
         <li>
-          <a href="./index.html">
-            <i class="fas fa-home"></i> Home
-          </a>
+          <Link to="/admin">
+            <i className="fas fa-home"></i> Home
+          </Link>
         </li>
         <li>
-          <i class="fas fa-newspaper"></i> Attendance
+          <i className="fas fa-newspaper"></i> Attendance
         </li>
         <li>
-          <i class="fas fa-dollar-sign"></i> Fees Details
+          <i className="fas fa-dollar-sign"></i> Fees Details
         </li>
         <li>
-          <i class="fas fa-list-ul"></i> Assignments
+          <i className="fas fa-list-ul"></i> Assignments
         </li>
         <li>
-          <i class="far fa-question-circle"></i> Examination
+          <i className="far fa-question-circle"></i> Examination
         </li>
         <li>
-          <i class="fas fa-scroll"></i> Results
+          <i className="fas fa-scroll"></i> Results
         </li>
         <li>
           <a href="./messages.html">
-            <i class="far fa-envelope"></i> Messages
+            <i className="far fa-envelope"></i> Messages
           </a>
         </li>
         <li>
-          <i class="fas fa-gift"></i> Opportunities
+          <i className="fas fa-gift"></i> Opportunities
         </li>
         <li>
-          <i class="fas fa-code"></i> Practicals
+          <i className="fas fa-code"></i> Practicals
         </li>
         <li>
-          <i class="far fa-check-circle"></i> Approved Application
+          <i className="far fa-check-circle"></i> Approved Application
         </li>
         <li>
-          <i class="far fa-user"></i> Faculty
+          <i className="far fa-user"></i> Faculty
         </li>
       </ul>
     </div>

@@ -1,128 +1,24 @@
-html,
-body {
-  overflow-x: hidden;
-  background: #97c8f9;
-  background: linear-gradient(90deg, #97c8f9 0%, #9ee7ed 100%);
+.registerForm{
+  background: #fff;
+  padding-top: 10px;
 }
 
-.container {
-  background: transparent;
-}
-.backPage{
-  color: #fff;
-}
-header {
-  margin-top: 45px;
-  color: #fff;
-}
-header a:hover {
-  color: #fff;
-  text-decoration: none;
-}
-
-main {
-  margin-top: 90px;
-  background: #fff;
-  max-width: 395px;
-  padding: 70px 0;
-}
-main img {
-  display: block;
-  margin: 0 auto;
-  max-width: 115px;
-  padding: 25px;
-  background: #fff;
-  border-radius: 50%;
-  -webkit-box-shadow: -5px 4px 45px 21px rgba(116, 186, 255, 0.07);
-  -moz-box-shadow: -5px 4px 45px 21px rgba(116, 186, 255, 0.07);
-  box-shadow: -5px 4px 45px 21px rgba(116, 186, 255, 0.07);
-}
-main form {
-  margin-left: 40px;
-  margin-top: 35px;
-  color: #949494;
-  font-size: 16px;
-}
-main form label {
-  margin: 0;
+h1{
   font-size: 24px;
-  margin-right: 15px;
-}
-main form .fields {
-  border: none;
-  background: transparent;
-  border-bottom: 1px solid #e8e8e8;
-  width: 272px;
-  margin-bottom: 25px;
-}
-main form .fields:focus {
-  outline: none;
-}
-main form button {
-  border: none;
-  outline: none;
-  margin: 0;
-  padding: 0;
-}
-main form .forgot {
-  color: #97c8f9;
   font-weight: 600;
-  margin-right: 45px;
-  float: right;
+  margin: 30px 0;
 }
-main form .submit {
-  width: 320px;
-  padding: 14px 133px;
+select{
+  margin-bottom: 10px;
+}
+
+.registerForm button{
+  background: #74b9ff;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  outline: none;
   border: none;
-  background: #97c8f9;
-  border-radius: 10px;
-  color: #fff;
-  margin-top: 25px;
-}
-
-footer {
-  color: #fff;
-  margin-top: 90px;
-}
-footer ul li {
-  display: inline-block;
-  margin-right: 25px;
-}
-footer ul li a{
-  color: #fff;
-}
-footer ul li a:hover{
-  color: #fff;
-  text-decoration: none;
-}
-
-@media only screen and (max-width: 400px) {
-  main {
-    margin-top: 50px;
-  }
-  main form {
-    margin-left: 20px;
-    padding: 10px 0;
-    margin-bottom: 0;
-  }
-  main form label {
-    margin-right: 10px;
-  }
-  main form .fields {
-    width: 252px;
-  }
-  main form .submit {
-    width: 300px;
-  }
-  main footer {
-    margin-top: 50px;
-  }
-  main footer .text-md-right {
-    display: none;
-  }
-}
-@media only screen and (min-width: 1366px) {
-  footer {
-    margin-top: 120px;
-  }
+  margin-top: 20px;
 }

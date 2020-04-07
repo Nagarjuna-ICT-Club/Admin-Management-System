@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import {Link} from "react-router-dom"
 
-// assets
-import userIcon from "../assets/userIcon.png";
-
 export default class UserCardLists extends Component {
   render() {
     let listsOfUsers;
@@ -15,7 +12,14 @@ export default class UserCardLists extends Component {
               <tbody>
                 <tr>
                   <td rowSpan="2">
-                    <img src={userIcon} alt="profileImage" width="65px" />
+                    <div className="userFirstNameCharacter" style={{
+                      background: "#74b9ff",
+                      color: "#fff",
+                      fontSize: "22px",
+                      padding: "10px 18px",
+                      marginRight: "10px",
+                      borderRadius: "50%"
+                    }}>{data.full_name.split('')[0]}</div>
                   </td>
                   <td>{data.full_name}</td>
                 </tr>

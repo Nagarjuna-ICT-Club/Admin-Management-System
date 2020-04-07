@@ -1,6 +1,18 @@
 import React, { Component } from "react";
 
 export default class StatusCard extends Component {
+  componentDidMount(){
+
+  }
+  constructor(props){
+    super(props);
+
+    this.state = {
+      students: 0,
+      teachers: 0,
+      admins: 0
+    }
+  }
   render() {
     return (
       <div>

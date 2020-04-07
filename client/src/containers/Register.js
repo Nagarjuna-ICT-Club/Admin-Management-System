@@ -1,46 +1,46 @@
 import React, { Component } from "react";
-import {Link} from 'react-router-dom'
-
-// package*s
-import { ToastContainer } from "react-toastify";
 
 // components
-import RegisterForm from "../components/Register/RegisterForm"
+import AdminRegisterForm from "../components/Register/AdminRegisterForm";
+import StudentRegisterFrom from "../components/Register/StudentRegistration"
+import TeacherRegistration from "../components/Register/TeacherRegistration"
 
 import "../components/Register/style.css";
 
 export default class Register extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: "admin",
+    };
+  }
+
+  onUserChange = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+
+    console.log(this.state)
+  }
   render() {
     return (
-      <div className="container">
-      <ToastContainer/>
-        {/* <!-- header starts --> */}
-        <header>
-          <Link to="/admin" className="backPage">
-            <i className="fas fa-arrow-left"></i> Back to page
-          </Link>
-        </header>
-        {/* <!-- header ends --> */}
-
-        {/* mains starts */}
-        <RegisterForm/>
-        {/* main ends */}
-
-        {/* footer starts */}
-        <footer>
-        <div className="row">
-            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                &copy; Nagarjuna College of IT. All Rights Reserved
-            </div>
-            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-xl-right text-lg-right text-md-right">
-                <ul>
-                    <li><Link to="">About</Link></li>
-                    <li><Link to="">Contact</Link></li>
-                </ul>
-            </div>
+      <div className="registerForm">
+        <div className="container">
+          <h1>Registration</h1>
+          <select class="form-control" name="user" onChange={this.onUserChange}>
+            <option selected value="admin">Admin</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+          </select>
+          {/* mains starts */}
+          {
+            (this.state.user === "admin")?<AdminRegisterForm/>:this.state.user === "student"?<StudentRegisterFrom/>:<TeacherRegistration/>
+          }
+          {/* main ends */}
         </div>
-    </footer>
-        {/* footer ends */}
       </div>
     );
   }
