@@ -17,7 +17,7 @@
   margin: 10px 0;
 }
 .statusCards .icon {
-  margin-left: 170px;
+  margin-left: 200px;
   font-size: 30px;
 }
 .statusCards .col-xl-4.col-lg-4.col-md-6.col-sm-6 {
@@ -111,7 +111,7 @@
 }
 @media only screen and (max-width: 1199px) {
   .statusCards .icon {
-    margin-left: 55px;
+    margin-left: 150px;
   }
   .statusCards .col-xl-4.col-lg-4.col-md-6.col-sm-6 {
     border: none;

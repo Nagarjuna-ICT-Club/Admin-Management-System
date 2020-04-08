@@ -80,6 +80,8 @@ export default class UserFilterer extends Component {
               <option value="bit">BIT</option>
               <option value="bca">BCA</option>
               <option value="bim">BIM</option>
+              <option value="bbs">BBS</option>
+              <option value="bbm">BBM</option>
             </select>
           </li>
 

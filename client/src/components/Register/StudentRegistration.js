@@ -39,28 +39,35 @@ export default class RegisterForm extends Component {
     let semester_id;
 
     switch (this.state.program) {
-      case 'csit':
-        semester_id = "5e8d43277cb3db2187337205";
+      case "csit":
+        semester_id = "5e8d6eff43723e5d271d2680";
         break;
-      case 'bim':
-        semester_id = "5e8d43317cb3db218733720d";
+      case "bit":
+        semester_id = "5e8d6ef043723e5d271d2678";
         break;
-      case 'bca':
-        semester_id = "5e8d43397cb3db2187337215";
+      case "bim":
+        semester_id = "5e8d6f0c43723e5d271d2688";
         break;
-      case 'bbm':
-        semester_id = "5e8d43427cb3db218733721d";
+      case "bca":
+        semester_id = "5e8d6f4243723e5d271d2690";
         break;
-      case 'bbs':
-        semester_id = "5e8d43497cb3db2187337225";
+      case "bbm":
+        semester_id = "5e8d6fe443723e5d271d26a0";
+        break;
+      case "bbs":
+        semester_id = "5e8d6f4943723e5d271d2698";
         break;
       default:
         semester_id = null;
     }
 
-    const { full_names, year } = this.state;
+    const { full_names, year, program } = this.state;
 
-    const student_names = full_names.split(",");
+    const students = full_names.split(",");
+    var student_names = [];
+    for(let student of students){
+      student_names.push(student.trim())
+    }
 
     const data = localStorage.getItem("access-token");
     const decoded = jwtDecode(data);
@@ -71,6 +78,8 @@ export default class RegisterForm extends Component {
           full_names: student_names,
           year,
           semester_id,
+          semester_name: "first",
+          program_name: program
         },
         {
           headers: { _id: decoded._id, Authorization: data },
@@ -96,6 +105,7 @@ export default class RegisterForm extends Component {
               id="exampleInputPassword1"
               name="full_names"
               onChange={this.handleInputChange}
+              required
             />
             <small className="form-text text-muted">
               Separate student name by ","(Comma)
@@ -109,6 +119,7 @@ export default class RegisterForm extends Component {
               id="exampleInputPassword1"
               name="year"
               onChange={this.handleInputChange}
+              required
             />
           </div>
           <div className="form-group">
@@ -127,6 +138,7 @@ export default class RegisterForm extends Component {
               className="form-control"
               name="program"
               onChange={this.handleInputChange}
+              required
             >
               <option selected value="csit">
                 Bsc.CSIT
@@ -135,6 +147,7 @@ export default class RegisterForm extends Component {
               <option value="bca">BCA</option>
               <option value="bim">BIM</option>
               <option value="bbs">BBS</option>
+              <option value="bbm">BBM</option>
             </select>
           </div>
 

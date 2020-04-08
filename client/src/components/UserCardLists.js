@@ -5,9 +5,9 @@ export default class UserCardLists extends Component {
   render() {
     let listsOfUsers;
     
-      listsOfUsers  = this.props.users.map((data) => {
+      listsOfUsers  = this.props.users.map((data, index) => {
         return (
-          <li className="userCard">
+          <li className="userCard" key={index}>
             <table>
               <tbody>
                 <tr>

@@ -25,7 +25,7 @@ export default class ListUser extends Component {
     };
   }
 
-  getAllUser = (userType, ...restData) => {
+  getAllUser = (userType, program, semester, group, reported, blacklisted) => {
     this.setState({
       userType,
     });
@@ -55,6 +55,26 @@ export default class ListUser extends Component {
           this.setState({
             studentDetails: res.data.studentDetails,
           });
+          if (program) {
+            if (semester) {
+              const students = res.data.studentDetails.filter(
+                (data) =>
+                  data.semester_name === semester &&
+                  data.program_name === program
+              );
+              this.setState({
+                studentDetails: students,
+              });
+            }
+            else {
+              const students = res.data.studentDetails.filter(
+                (data) => data.program_name === program
+              );
+              this.setState({
+                studentDetails: students,
+              });
+            }
+          } 
         })
         .catch((err) => {
           if (err && err.response && err.response.status)

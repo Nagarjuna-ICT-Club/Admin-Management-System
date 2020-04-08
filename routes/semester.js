@@ -32,10 +32,10 @@ semesterRouter.post("/new-semester", async (req, res) => {
 
     for(let semester of semesters){
       // check if semester already exists
-      const semExist = await semesterModel.find({
-        program
-      })
-      if(semExist) return res.status(400).json({msg: "Program already exists"});
+      // const semExist = await semesterModel.find({
+      //   program,
+      // })
+      // if(semExist) return res.status(400).json({msg: "Program already exists"});
 
       const newSemester = new semesterModel({
         semester,
