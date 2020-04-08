@@ -25,11 +25,6 @@ export default class ListUser extends Component {
     };
   }
 
-  propChanger = () => {
-    if (this.state.userType === "admin") return this.state.adminDetails;
-    if (this.state.userType === "student") return this.state.studentDetails;
-  };
-
   getAllUser = (userType, ...restData) => {
     this.setState({
       userType,

@@ -15,7 +15,6 @@ const studentDetailSchema = new mongoose.Schema({
   full_name: stringTyped(false),
   contact_number: stringTyped(false),
   semester_id: stringTyped(true, "Semester ID must be initiated!"),
-  program_id: stringTyped(true, "Program ID must be initiated!"),
   created_at: {
     type: Date,
     default: Date.now

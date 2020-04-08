@@ -4,42 +4,57 @@ const semesterRouter = require("express").Router();
 const semesterModel = require("../models/Semester");
 
 // adding new semester
-semesterRouter.post("/new-semester", async (req, res) => {
-  const { semester, program } = req.body;
+semesterRouter.get("/get-semester", async (req, res) => {
+  const semesters = await semesterModel.find();
 
-  const newSemester = new semesterModel({
-    semester,
-    program
+  res.status(200).json({
+    semesters,
   });
-  try {
-    // check if semester for same program exists already
-    const semesterExist = await semesterModel.findOne({
-      program
+});
+
+semesterRouter.get("/get-first-semester", async (req, res) => {
+  try{
+    const firstSemester = await semesterModel.find({
+      semester: "first"
     });
-
-    if (semester === semesterExist.semester)
-      return res
-        .status(400)
-        .json({ msg: "Semester for that program already exists!" });
-
-    const semesterStatus = await newSemester.save();
-
-    // if new semester is not created
-    if (!semesterStatus)
-      return res
-        .status(400)
-        .json({ msg: "Error while creating new semester!" });
 
     res.status(200).json({
-      msg: "Semester created successfully!"
-    });
-  } catch (err) {
-    if (err)
-      return res.status(500).json({
-        msg:
-          "Error while creating new semester/program => ams/routes/semester.js",
-        err
-      });
+      firstSemester
+    })
+  }catch(err){
+    if(err) res.status(500).json({msg: "Internal Server Error => /get-first-semester"})
+  }
+})
+
+semesterRouter.post("/new-semester", async (req, res) => {
+  try{
+    const {semesters, program} = req.body;
+
+    for(let semester of semesters){
+      // check if semester already exists
+      const semExist = await semesterModel.find({
+        program
+      })
+      if(semExist) return res.status(400).json({msg: "Program already exists"});
+
+      const newSemester = new semesterModel({
+        semester,
+        program
+      })
+
+      const newData = await newSemester.save();
+      if(!newData) res.status(400).json({
+        msg: "No new semester!"
+      })
+    }
+
+    res.status(200).json({
+      msg: "Semesters added successfully!"
+    })
+  }catch(err){
+    if(err) res.status(500).json({
+      msg:"Inernal Server Error => /new-semester"
+    })
   }
 });
 
@@ -50,13 +65,13 @@ semesterRouter.patch("/update-semester", async (req, res) => {
   try {
     const updatedSemesterStatus = await semesterModel.updateOne(
       {
-        _id
+        _id,
       },
       {
         $set: {
           semester,
-          program
-        }
+          program,
+        },
       }
     );
 
@@ -67,14 +82,14 @@ semesterRouter.patch("/update-semester", async (req, res) => {
     // check if there is any error
     if (!updatedSemesterStatus)
       return res.status(500).json({
-        msg: "Error updating semester => ams/routes/semester"
+        msg: "Error updating semester => ams/routes/semester",
       });
 
     res.status(200).json(updatedSemesterStatus);
   } catch (err) {
     if (err)
       return res.status(500).json({
-        msg: "Error updating semester derail => ams/routes/semester.js"
+        msg: "Error updating semester derail => ams/routes/semester.js",
       });
   }
 });
@@ -86,17 +101,17 @@ semesterRouter.delete("/delete-semester", async (req, res) => {
   try {
     const deleteStatus = await semesterModel.deleteOne({ _id });
 
-    if (deleteStatus.deletedCount === 0 )
+    if (deleteStatus.deletedCount === 0)
       return res.status(400).json({
-        msg: "Semester do not exists."
+        msg: "Semester do not exists.",
       });
 
-      res.status(200).json({msg: "Semester deleted successfulyy!"})
+    res.status(200).json({ msg: "Semester deleted successfulyy!" });
   } catch (err) {
     if (err)
       return res.status(500).json({
         msg: "Error deleting semester => ./routes/semester.js",
-        ...err
+        ...err,
       });
   }
 });

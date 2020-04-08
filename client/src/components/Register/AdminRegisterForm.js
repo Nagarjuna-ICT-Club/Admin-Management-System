@@ -54,52 +54,52 @@ export default class RegisterForm extends Component {
     return (
       <div className="registerForm">
         <form>
-          <div class="form-group">
+          <div className="form-group">
             <label htmlFor="exampleInputPassword1">Full Name</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
               name="full_name"
               onChange={this.handleInputChange}
             />
           </div>
-          <div class="form-group">
+          <div className="form-group">
             <label htmlFor="exampleInputEmail1">Email address</label>
             <input
               type="email"
-              class="form-control"
+              className="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               name="email"
               onChange={this.handleInputChange}
             />
-            <small id="emailHelp" class="form-text text-muted">
+            <small id="emailHelp" className="form-text text-muted">
               We'll never share your email with anyone else.
             </small>
           </div>
-          <div class="form-group">
+          <div className="form-group">
             <label htmlFor="exampleInputPassword1">Password</label>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
               name="password"
               onChange={this.handleInputChange}
             />
           </div>
-          <div class="form-group">
+          <div className="form-group">
             <label htmlFor="exampleInputPassword1">Contact Number</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
               name="contact_number"
               onChange={this.handleInputChange}
             />
           </div>
 
-          <button type="submit" class="btn" onClick={this.register}>
+          <button type="submit" className="btn" onClick={this.register}>
             Submit
           </button>
         </form>

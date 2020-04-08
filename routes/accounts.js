@@ -245,106 +245,18 @@ accountRouter.get("/get-student", async(req, res) => {
 //----------------
 // new student    |
 //----------------
-const DOMAIN = "nagarjunacollege.edu.np";
-const mongoose = require("mongoose");
-
-const generateEmailByNameAndYear = (name, year) => {
-    name = name.replace(/\s/g, "").toLowerCase();
-    return `${name}${year}@${DOMAIN}`;
-};
-
-const generatePasswordByNameAndYear = (name, year) => {
-    name = name.replace(/\s/g, "").toLowerCase();
-    return `${name}${year}`;
-};
 
 // post request for cross data reference -> php
-const newStudentCrossAPI = jsonData => {
-    try {
-        axios.post("http://sudeepmishra.com.np/new_student", jsonData);
-    } catch (error) {
-        console.log(error);
-    }
-};
+// const newStudentCrossAPI = jsonData => {
+//     try {
+//         axios.post("http://sudeepmishra.com.np/new_student", jsonData);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
-const createStudent = async({
-    _id,
-    email,
-    password,
-    full_name,
-    program_id,
-    semester_id
-}) => {
-    const newStudent = new studentModel({
-        _id,
-        email,
-        password: require("bcrypt").hashSync(password, 10)
-    });
-
-    const newStudentDetail = new studentDetailsModel({
-        _id,
-        program_id,
-        semester_id,
-        full_name
-    });
-
-    let promises = [newStudent.save(), newStudentDetail.save()];
-    await Promise.all(promises);
-};
-
-accountRouter.post("/new-student", async(req, res) => {
-    const { full_names, year, program_id, semester_id } = req.body;
-
-    let students = [];
-    for (let full_name of full_names) {
-        let student = {
-            full_name
-        };
-        student.email = generateEmailByNameAndYear(full_name, year);
-        student.password = generatePasswordByNameAndYear(full_name, year);
-        students.push(student);
-    }
-
-    try {
-        const oldStudents = await studentModel.find({
-            email: {
-                $in: students.map(student => student.email)
-            }
-        });
-        const oldStudentEmails = oldStudents.map(student => student.email);
-
-        // filtering new student
-        const newStudents = students.filter(
-            student => !oldStudentEmails.includes(student.email)
-        );
-
-        for (const student of newStudents) {
-            const _id = mongoose.Types.ObjectId();
-            const params = {
-                _id,
-                ...student,
-                program_id,
-                semester_id
-            };
-            await createStudent(params);
-
-            params.createdAt = new Date();
-
-            newStudentCrossAPI([params]);
-        }
-
-        res.status(200).json({
-            msg: "Student account created successfully!",
-            // newStudents,
-            duplicates: oldStudents // student who are already exists. you can show message using this array in FE
-        });
-    } catch (error) {
-        return res.status(500).json({
-            msg: "/new-student: Error generating new student"
-        });
-    }
-});
-
+// newStudentCrossAPI([params]);
+// accountRouter.post("/new-student");
 //------------------
 // update student   |
 //------------------

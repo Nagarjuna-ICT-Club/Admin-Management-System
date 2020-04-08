@@ -6,7 +6,6 @@ module.exports = {
     try {
       if (typeof accessToken !== "undefined") {
         const userID = await jwt.verify(accessToken.split(" ")[1], process.env.SECRET_KEY);
-        console.log(userID)
 
         req.userID = userID;
         next();

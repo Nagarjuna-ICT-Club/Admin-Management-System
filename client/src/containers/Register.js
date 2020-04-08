@@ -22,15 +22,13 @@ export default class Register extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-
-    console.log(this.state)
   }
   render() {
     return (
       <div className="registerForm">
         <div className="container">
           <h1>Registration</h1>
-          <select class="form-control" name="user" onChange={this.onUserChange}>
+          <select className="form-control" name="user" onChange={this.onUserChange}>
             <option selected value="admin">Admin</option>
             <option value="teacher">Teacher</option>
             <option value="student">Student</option>
