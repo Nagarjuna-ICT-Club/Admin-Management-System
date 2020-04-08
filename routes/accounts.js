@@ -74,8 +74,8 @@ accountRouter.post("/new-admin", async (req, res) => {
 const { getCurrentUserData } = require("../controllers/getCurrentUserInfo");
 accountRouter.get("/get-current-user", getCurrentUserData);
 
-const {countUsers} = require("../controllers/countUserNumbers")
-accountRouter.get("/get-user-number", countUsers)
+const { countUsers } = require("../controllers/countUserNumbers");
+accountRouter.get("/get-user-number", countUsers);
 
 //--------------------
 //  Read Admin        |
@@ -282,7 +282,7 @@ const createStudent = async ({
   full_name,
   semester_id,
   semester_name,
-  program_name
+  program_name,
 }) => {
   const newStudent = new studentModel({
     _id,
@@ -295,7 +295,7 @@ const createStudent = async ({
     semester_id,
     full_name,
     semester_name,
-    program_name
+    program_name,
   });
 
   let promises = [newStudent.save(), newStudentDetail.save()];
@@ -303,7 +303,13 @@ const createStudent = async ({
 };
 
 accountRouter.post("/new-student", async (req, res) => {
-  const { full_names, year, semester_id, semester_name, program_name } = req.body;
+  const {
+    full_names,
+    year,
+    semester_id,
+    semester_name,
+    program_name,
+  } = req.body;
 
   let students = [];
   for (let full_name of full_names) {
@@ -311,7 +317,7 @@ accountRouter.post("/new-student", async (req, res) => {
       full_name,
       semester_id,
       semester_name,
-      program_name
+      program_name,
     };
     student.email = generateEmailByNameAndYear(full_name, year);
     student.password = generatePasswordByNameAndYear(full_name, year);
@@ -321,8 +327,8 @@ accountRouter.post("/new-student", async (req, res) => {
   try {
     const oldStudents = await studentDetailsModel.find({
       semester_id: {
-          $in: students.map(student => student.semester_id)
-      }
+        $in: students.map((student) => student.semester_id),
+      },
     });
 
     const oldStudentsData = oldStudents.map((student) => student.full_name);
@@ -541,37 +547,54 @@ accountRouter.delete("/delete-student", async (req, res) => {
 //-----------------------------
 // create teacher account     |
 //-----------------------------
+accountRouter.get("/get-teacher", async (req, res) => {
+  try{
+    const teacherDetails = await teacherDetailsModel.find();
+
+    if(!teacherDetails) return res.status(400).json({
+      msg: "Error getting teacher details!"
+    })
+
+    res.status(200).json({
+      teacherDetails
+    })
+  }catch(err){
+    if(err) res.status(500).json({
+      msg:"Internal Server Error => /get-teacher"
+    })
+  }
+})
 accountRouter.post("/new-teacher", async (req, res) => {
   const _id = require("mongoose").Types.ObjectId();
-  const {
-    email,
-    password,
-    full_name,
-    contact_number,
-    subject_id,
-    semester_id,
-  } = req.body;
-  //Note: Semester_id is passed as an array!
+  const { full_name, contact_number, subject_name, program_name, year } = req.body;
 
   const newTeacher = new teacherModel({
     _id,
-    email,
-    password: require("bcrypt").hashSync(password, 10),
+    email:
+      full_name.replace(/\s/g, "").toLowerCase() +
+      year +
+      "@nagarjunacollege.edu.np",
+    password: require("bcrypt").hashSync(`${full_name}@nagarjuna`, 10),
   });
 
   const newTeacherDetail = new teacherDetailsModel({
     _id,
     full_name,
     contact_number,
-    subject_id,
-    semester_id,
+    subject_name,
+    program_name,
   });
 
   try {
     // check if email already exists or not
     const emailExist = await teacherModel.findOne({
-      email,
+      email:
+      full_name.replace(/\s/g, "").toLowerCase() +
+      year +
+      "@nagarjunacollege.edu.np",
     });
+
+    console.log(emailExist)
 
     if (emailExist)
       return res.status(400).json({

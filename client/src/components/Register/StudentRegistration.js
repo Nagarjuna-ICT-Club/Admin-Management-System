@@ -65,9 +65,7 @@ export default class RegisterForm extends Component {
 
     const students = full_names.split(",");
     var student_names = [];
-    for(let student of students){
-      student_names.push(student.trim())
-    }
+    for (let student of students) student_names.push(student.trim());
 
     const data = localStorage.getItem("access-token");
     const decoded = jwtDecode(data);
@@ -79,7 +77,7 @@ export default class RegisterForm extends Component {
           year,
           semester_id,
           semester_name: "first",
-          program_name: program
+          program_name: program,
         },
         {
           headers: { _id: decoded._id, Authorization: data },

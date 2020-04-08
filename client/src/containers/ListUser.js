@@ -65,8 +65,7 @@ export default class ListUser extends Component {
               this.setState({
                 studentDetails: students,
               });
-            }
-            else {
+            } else {
               const students = res.data.studentDetails.filter(
                 (data) => data.program_name === program
               );
@@ -74,7 +73,30 @@ export default class ListUser extends Component {
                 studentDetails: students,
               });
             }
-          } 
+          }
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.status)
+            toast.error(err.response.data.msg);
+        });
+    }
+
+    if (userType === "teacher") {
+      Axios.get("http://localhost:8080/api/admin/accounts/get-teacher", {
+        headers: { _id: decoded._id, Authorization: data },
+      })
+        .then((res) => {
+          this.setState({
+            teacherDetails: res.data.teacherDetails,
+          });
+          if (program) {
+            const teachers = res.data.teacherDetails.filter((data) =>
+              data.program_name.includes(program)
+            );
+            this.setState({
+              teacherDetails: teachers,
+            });
+          }
         })
         .catch((err) => {
           if (err && err.response && err.response.status)

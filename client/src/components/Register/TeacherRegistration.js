@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // packages
 import axios from "axios";
 import { toast } from "react-toastify";
+import jwtDecode from "jwt-decode"
 
 export default class RegisterForm extends Component {
   constructor(props) {
@@ -10,8 +11,9 @@ export default class RegisterForm extends Component {
     this.state = {
       full_name: "",
       year: "",
-      semester_id: "",//here the first sem id must be hardly coded 
-      program_id: ""
+      contact_numbers: "",
+      subject_names: "",
+      program_names: "",
     };
   }
 
@@ -24,77 +26,116 @@ export default class RegisterForm extends Component {
   register = (e) => {
     e.preventDefault();
 
-    const { email, password, full_name, contact_number } = this.state;
+    const {
+      full_name,
+      year,
+      contact_numbers,
+      subject_names,
+      program_names,
+    } = this.state;
 
-    const token = localStorage.getItem("access-token");
+    const contact_nums = contact_numbers.split(",");
+    var contact_number = [];
+    for (let num of contact_nums) contact_number.push(num.trim());
 
+    const subjects = subject_names.split(",");
+    var subject_name = [];
+    for (let sub of subjects) subject_name.push(sub.trim());
+
+    const programs = program_names.split(",");
+    var program_name = [];
+    for (let program of programs) program_name.push(program.trim());
+
+    const data = localStorage.getItem("access-token");
+    const decoded = jwtDecode(data);
     axios
       .post(
-        "http://localhost:8080/api/admin/accounts/new-admin",
+        "http://localhost:8080/api/admin/accounts/new-teacher",
         {
-          email,
-          password,
           full_name,
+          year,
+          program_name,
+          subject_name,
           contact_number,
         },
         {
-          headers: {
-            Authorization: token,
-          },
+          headers: { _id: decoded._id, Authorization: data },
         }
       )
       .then((res) => {
         toast.success(res.data.msg);
       })
       .catch((err) => {
-        if (err && err.response) toast.error(err.response.data.msg);
+        if (err && err.response && err.response.status)
+          toast.error(err.response.data.msg);
       });
   };
   render() {
     return (
       <div className="registerForm">
         <form>
-          <div class="form-group">
+          <div className="form-group">
             <label htmlFor="exampleInputPassword1">Full Name</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
               name="full_name"
+              onChange={this.handleInputChange}
             />
-            <small class="form-text text-muted">Separate student name by ","(Comma)</small>
+            <div className="form-group">
+              <label htmlFor="exampleInputPassword1">Joined Year</label>
+              <input
+                type="text"
+                className="form-control"
+                id="exampleInputPassword1"
+                name="year"
+                onChange={this.handleInputChange}
+                required
+              />
+            </div>
           </div>
-          <div class="form-group">
-            <label htmlFor="exampleInputPassword1">Year</label>
+          <div className="form-group">
+            <label htmlFor="exampleInputPassword1">Contact Number</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
-              name="full_name"
+              name="contact_numbers"
+              onChange={this.handleInputChange}
             />
+            <small className="form-text text-muted">
+              Separate contact number by ","(Comma)
+            </small>
           </div>
-          <div class="form-group">
-            <label htmlFor="exampleInputPassword1">Semester</label>
+          <div className="form-group">
+            <label htmlFor="exampleInputPassword1">Subject</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
-              name="full_name"
-              value="First"
-              disabled
+              name="subject_names"
+              onChange={this.handleInputChange}
             />
+            <small className="form-text text-muted">
+              Separate subjects by ","(Comma)
+            </small>
           </div>
-          <div class="form-group">
+          <div className="form-group">
             <label htmlFor="exampleInputPassword1">Program</label>
-            <select class="form-control" name="program" >
-            <option selected value="csit">Bsc.CSIT</option>
-            <option value="bit">BIT</option>
-            <option value="BCA">BCA</option>
-            <option value="BIM">BIM</option>
-          </select>
+            <input
+              type="text"
+              className="form-control"
+              id="exampleInputPassword1"
+              name="program_names"
+              onChange={this.handleInputChange}
+            />
+            <small className="form-text text-muted">
+              Separate program by ","(Comma)
+            </small>
           </div>
-          
-          <button type="submit" class="btn">
+
+          <button type="submit" className="btn" onClick={this.register}>
             Submit
           </button>
         </form>

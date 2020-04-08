@@ -3,29 +3,30 @@ const mongoose = require("mongoose");
 const stringTyped = (require, message) => {
   return {
     type: String,
-    required: [require, message]
+    required: [require, message],
   };
 };
 
 const teacherDetailSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Types.ObjectId,
-    required: [true, "_id must be initiated!"]
+    required: [true, "_id must be initiated!"],
   },
   full_name: stringTyped(false),
-  contact_number: stringTyped(false),
-  subject_id: stringTyped(true, "Semester ID must be initiated!"),
-  semester_id: {
-      type: Array
-  },
+  contact_number: Array,
+  subject_name: Array,
+  program_name: Array,
   created_at: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   updated_at: {
-    type: Date
+    type: Date,
   },
-  expires_at: stringTyped(false)
+  expires_at: stringTyped(false),
 });
 
-module.exports = teacherDetailsModel = mongoose.model("teacher_detail", teacherDetailSchema);
+module.exports = teacherDetailsModel = mongoose.model(
+  "teacher_detail",
+  teacherDetailSchema
+);
