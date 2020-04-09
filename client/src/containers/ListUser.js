@@ -104,6 +104,41 @@ export default class ListUser extends Component {
         });
     }
   };
+
+  getFilterName = (name) => {
+    // if user is admin
+    if(this.state.userType === "admin"){
+      const user = this.state.adminDetails.filter(
+        (data) => data.full_name === name
+      );
+  
+      this.setState({
+        adminDetails: user,
+      });
+    }
+
+    // if user is student
+    if(this.state.userType === "student"){
+      const user = this.state.studentDetails.filter(
+        (data) => data.full_name === name
+      );
+  
+      this.setState({
+        studentDetails: user,
+      });
+    }
+
+    //if the usertype is teacher
+    if(this.state.userType === "teacher"){
+      const user = this.state.teacherDetails.filter(
+        (data) => data.full_name === name
+      );
+  
+      this.setState({
+        teacherDetails: user,
+      });
+    }
+  };
   render() {
     return (
       <div className="userList">
@@ -115,7 +150,7 @@ export default class ListUser extends Component {
           <div className="row">
             <div className="col-xl-3 col-lg-4 col-md-4 col-sm-12">
               {/* search user by name */}
-              <SearchForm />
+              <SearchForm filterByName={this.getFilterName} />
               {/* filter by groups */}
               <div className="filterGroup">
                 <UserFilterer getUsers={this.getAllUser} />

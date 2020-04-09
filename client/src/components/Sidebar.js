@@ -80,7 +80,9 @@ export default function Sidebar(props) {
           <i className="far fa-check-circle"></i> Approved Application
         </li>
         <li>
-          <i className="far fa-user"></i> Faculty
+        <Link to="/admin/user-list">
+        <i className="far fa-user"></i> Faculty
+        </Link>
         </li>
       </ul>
     </div>
