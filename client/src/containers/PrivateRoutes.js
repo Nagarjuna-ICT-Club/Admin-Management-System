@@ -7,11 +7,12 @@ import Register from "./Register";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
+import StudentPreview from "../containers/StudentPreview"
 
 // packages
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import {toast, ToastContainer} from 'react-toastify'
+import { toast, ToastContainer } from "react-toastify";
 
 export default class PrivateRoutes extends Component {
   componentDidMount() {
@@ -24,38 +25,39 @@ export default class PrivateRoutes extends Component {
       })
       .then((res) => {
         this.setState({
-          userData: res.data
-        })
+          userData: res.data,
+        });
       })
       .catch((err) => {
         if (err && err.response && err.response.status)
           toast.error(err.response.data.msg);
       });
 
-      if(this.state.userData === null){
-        localStorage.clear();
-        window.location.reload();
-      }
+    if (this.state.userData === null) {
+      localStorage.clear();
+      window.location.reload();
+    }
   }
   constructor(props) {
     super(props);
 
     this.state = {
       userData: {
-        detailData: {}
+        detailData: {},
       },
     };
   }
   render() {
     return (
       <BrowserRouter>
-      <ToastContainer/>
+        <ToastContainer />
         <Navbar userName={this.state.userData.detailData.full_name} />
         <Sidebar userName={this.state.userData.detailData.full_name} />
         <Switch>
           <Route exact path="/admin" component={Home} />
           <Route path="/admin/user-list" component={ListUser} />
           <Route path="/admin/register-admin" component={Register} />
+          <Route path="/admin/student-preview" component={StudentPreview} />
         </Switch>
         <Footer />
       </BrowserRouter>

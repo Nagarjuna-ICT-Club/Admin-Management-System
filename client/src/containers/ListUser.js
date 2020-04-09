@@ -18,10 +18,24 @@ export default class ListUser extends Component {
 
     this.state = {
       userType: "",
-      admin: [],
+      admins: [],
       adminDetails: [],
+      students: [],
       studentDetails: [],
+      teachers: [],
       teacherDetails: [],
+      adminData: {
+        admins: [],
+        adminDetails: [],
+      },
+      studentData: {
+        students: [],
+        studentDetails: [],
+      },
+      teacherData: {
+        teachers: [],
+        teacherDetails: [],
+      },
     };
   }
 
@@ -38,7 +52,12 @@ export default class ListUser extends Component {
       })
         .then((res) => {
           this.setState({
+            admins: res.data.admins,
             adminDetails: res.data.adminDetails,
+            adminData: {
+              admins: res.data.admins,
+              adminDetails: res.data.adminDetails,
+            },
           });
         })
         .catch((err) => {
@@ -53,8 +72,14 @@ export default class ListUser extends Component {
       })
         .then((res) => {
           this.setState({
+            students: res.data.student,
             studentDetails: res.data.studentDetails,
+            studentData: {
+              students: res.data.student,
+              studentDetails: res.data.studentDetails,
+            },
           });
+
           if (program) {
             if (semester) {
               const students = res.data.studentDetails.filter(
@@ -63,14 +88,24 @@ export default class ListUser extends Component {
                   data.program_name === program
               );
               this.setState({
+                students: res.data.student,
                 studentDetails: students,
+                students: res.data.student,
+                studentData: {
+                  studentDetails: students,
+                },
               });
             } else {
               const students = res.data.studentDetails.filter(
                 (data) => data.program_name === program
               );
               this.setState({
+                students: res.data.student,
                 studentDetails: students,
+                studentData: {
+                  students: res.data.student,
+                  studentDetails: students,
+                },
               });
             }
           }
@@ -87,7 +122,12 @@ export default class ListUser extends Component {
       })
         .then((res) => {
           this.setState({
+            teachers: res.data.teacher,
             teacherDetails: res.data.teacherDetails,
+            teacherData: {
+              teachers: res.data.teacher,
+              teacherDetails: res.data.teacherDetails,
+            },
           });
           if (program) {
             const teachers = res.data.teacherDetails.filter((data) =>
@@ -95,6 +135,11 @@ export default class ListUser extends Component {
             );
             this.setState({
               teacherDetails: teachers,
+              teachers: res.data.teacher,
+              teacherData: {
+                teachers: res.data.teacher,
+                teacherDetails: teachers,
+              },
             });
           }
         })
@@ -107,35 +152,47 @@ export default class ListUser extends Component {
 
   getFilterName = (name) => {
     // if user is admin
-    if(this.state.userType === "admin"){
+    if (this.state.userType === "admin") {
       const user = this.state.adminDetails.filter(
         (data) => data.full_name === name
       );
-  
+
       this.setState({
         adminDetails: user,
+        adminData: {
+          adminDetails: user,
+        },
       });
     }
 
     // if user is student
-    if(this.state.userType === "student"){
+    if (this.state.userType === "student") {
       const user = this.state.studentDetails.filter(
         (data) => data.full_name === name
       );
-  
+
+
+
       this.setState({
         studentDetails: user,
+        studentData: {
+          studentDetails: user,
+        },
       });
     }
 
     //if the usertype is teacher
-    if(this.state.userType === "teacher"){
+    if (this.state.userType === "teacher") {
       const user = this.state.teacherDetails.filter(
         (data) => data.full_name === name
       );
-  
+
+
       this.setState({
         teacherDetails: user,
+        teacherData: {
+          teacherDetails: user,
+        },
       });
     }
   };
@@ -161,10 +218,10 @@ export default class ListUser extends Component {
               <UserCardLists
                 users={
                   this.state.userType === "admin"
-                    ? this.state.adminDetails
+                    ? this.state.adminData
                     : this.state.userType === "student"
-                    ? this.state.studentDetails
-                    : this.state.teacherDetails
+                    ? this.state.studentData
+                    : this.state.teacherData
                 }
                 userType={this.state.userType}
               />

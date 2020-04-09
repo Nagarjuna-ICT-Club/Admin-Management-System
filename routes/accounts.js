@@ -91,7 +91,7 @@ accountRouter.get("/get-admin", async (req, res) => {
       });
 
     res.status(200).json({
-      admin: adminDetail0,
+      admins: adminDetail0,
       adminDetails: adminDetail1,
     });
   } catch (err) {
@@ -234,14 +234,15 @@ accountRouter.delete("/delete-admin", async (req, res) => {
 //------------------
 accountRouter.get("/get-student", async (req, res) => {
   try {
+    const student = await studentModel.find();
     const studentDetails = await studentDetailsModel.find();
 
-    if (!studentDetails)
+    if (!studentDetails || !student)
       return res.status(400).json({
         msg: "Error while getting student data => accounts.js",
       });
 
-    res.status(200).json({ studentDetails });
+    res.status(200).json({ student, studentDetails });
   } catch (err) {
     res.status(500).json({
       msg: "Error while getting student data => accounts.js",
@@ -548,25 +549,35 @@ accountRouter.delete("/delete-student", async (req, res) => {
 // create teacher account     |
 //-----------------------------
 accountRouter.get("/get-teacher", async (req, res) => {
-  try{
+  try {
+    const teacher = await teacherModel.find();
     const teacherDetails = await teacherDetailsModel.find();
 
-    if(!teacherDetails) return res.status(400).json({
-      msg: "Error getting teacher details!"
-    })
+    if (!teacherDetails)
+      return res.status(400).json({
+        msg: "Error getting teacher details!",
+      });
 
     res.status(200).json({
-      teacherDetails
-    })
-  }catch(err){
-    if(err) res.status(500).json({
-      msg:"Internal Server Error => /get-teacher"
-    })
+      teachers: teacher,
+      teacherDetails,
+    });
+  } catch (err) {
+    if (err)
+      res.status(500).json({
+        msg: "Internal Server Error => /get-teacher",
+      });
   }
-})
+});
 accountRouter.post("/new-teacher", async (req, res) => {
   const _id = require("mongoose").Types.ObjectId();
-  const { full_name, contact_number, subject_name, program_name, year } = req.body;
+  const {
+    full_name,
+    contact_number,
+    subject_name,
+    program_name,
+    year,
+  } = req.body;
 
   const newTeacher = new teacherModel({
     _id,
@@ -589,12 +600,12 @@ accountRouter.post("/new-teacher", async (req, res) => {
     // check if email already exists or not
     const emailExist = await teacherModel.findOne({
       email:
-      full_name.replace(/\s/g, "").toLowerCase() +
-      year +
-      "@nagarjunacollege.edu.np",
+        full_name.replace(/\s/g, "").toLowerCase() +
+        year +
+        "@nagarjunacollege.edu.np",
     });
 
-    console.log(emailExist)
+    console.log(emailExist);
 
     if (emailExist)
       return res.status(400).json({
